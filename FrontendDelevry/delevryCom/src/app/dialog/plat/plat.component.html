@@ -1,0 +1,54 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>{{dialogAction}} Dish</h2>
+  <button mat-icon-button class="close-button" mat-dialog-close aria-label="Close dialog">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="mat-typography dialog-content">
+  <form [formGroup]="platForm" class="plat-form">
+    <div class="form-grid">
+      <mat-form-field appearance="outline" class="name-field">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="nom" required />
+        <mat-error *ngIf="platForm.get('nom')?.touched && platForm.get('nom')?.errors?.['required']">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="price-field">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="prix" required />
+        <span matPrefix>$&nbsp;</span>
+        <mat-error *ngIf="platForm.get('prix')?.errors?.['required']">
+          Price is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="description-field">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3" required></textarea>
+      <mat-error *ngIf="platForm.get('description')?.errors?.['required']">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="file-upload">
+      <label for="fileInput" class="file-label">Image</label>
+      <input id="fileInput" type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" />
+      <div *ngIf="platFormSubmitted && !selectedFile" class="file-error">
+        Image is required
+      </div>
+      <div *ngIf="selectedFile" class="file-selected">
+        Selected: {{ selectedFile.name }}
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-raised-button color="primary" (click)="handleSubmit()" [disabled]="!platForm.valid" class="submit-button">
+    <mat-icon>save</mat-icon> {{ action }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,49 @@
+<h1 mat-dialog-title>
+  {{ data.action === 'Edit' ? 'Edit Order' : 'Details Order' }}
+</h1>
+
+<!-- Mode édition -->
+<form *ngIf="data.action === 'Edit'" [formGroup]="commandeForm">
+  <div formArrayName="plats">
+    <div *ngFor="let plat of plats.controls; let i = index" [formGroupName]="i" class="plat-item">
+      <mat-form-field appearance="outline">
+        <mat-label>Name Of Order</mat-label>
+        <input matInput formControlName="nom" readonly>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" min="1" formControlName="quantite">
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" (click)="removePlat(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>
+
+<!-- Mode visualisation -->
+<div *ngIf="data.action === 'View'">
+  <div *ngIf="data.data">
+    <p><strong>ID :</strong> {{ data.data.id }}</p>
+    <p><strong>Date :</strong> {{ data.data.dateCommande }}</p>
+    <p><strong>Status :</strong> {{ data.data.statut }}</p>
+    <p><strong>Address Of Delivery :</strong> {{ data.data.adresseLivraison }}</p>
+    <p><strong>Total :</strong> {{ data.data.montant }} €</p>
+
+    <h3>Orders :</h3>
+    <ul>
+      <li *ngFor="let plat of data.data.plats">
+        {{ plat.nom }} — Quantity: {{ plat.quantite || 1 }} — Prix: {{ plat.prix }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button color="basic" (click)="dialogRef.close()">Close</button>
+
+  <!-- Boutons uniquement en mode édition -->
+  <button *ngIf="data.action === 'Edit'" mat-flat-button color="primary" (click)="handleSubmit()">Save</button>
+</div>

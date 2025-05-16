@@ -1,0 +1,42 @@
+<div class="dialog-header">
+  <h2 mat-dialog-title>Sign In</h2>
+  <button mat-icon-button class="close-button" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="signinForm" class="signin-form" (ngSubmit)="handleSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" required>
+      <mat-error *ngIf="signinForm.controls['email'].hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="signinForm.controls['email'].hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+      <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <mat-error *ngIf="signinForm.controls['password'].hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-button class="forgot-password">
+      Forgot Password?
+    </button>
+
+    <mat-dialog-actions align="center">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!(signinForm.valid && signinForm.dirty)">
+        Sign In
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

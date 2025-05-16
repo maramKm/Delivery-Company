@@ -1,0 +1,31 @@
+<body>
+    <mat-card>
+        <b><span>Dashboard</span></b>
+    </mat-card>
+    <br>
+    <div class="row">
+        <div class="column">
+            <div class="container">
+                <h2 class="title">Total Restaurants:</h2>
+                <h1 class="title">{{ data?.Restaurant }}</h1>
+                <p><button class="button">View Restaurants</button></p>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="container">
+                <h2 class="title">Total Delivery Persons:</h2>
+                <h1 class="title">{{ data?.Livreur }}</h1>
+                <p><button class="button">View Delivery Persons</button></p>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="container">
+                <h2 class="title">Total Deliveries:</h2>
+                <h1 class="title">{{ data?.Livraison }}</h1>
+                <p><button class="button">View Deliveries</button></p>
+            </div>
+        </div>
+    </div>
+</body>

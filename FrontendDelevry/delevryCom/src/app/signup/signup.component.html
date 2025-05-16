@@ -1,0 +1,117 @@
+<div class="dialog-header">
+    <h2 mat-dialog-title>Sign Up</h2>
+    <button mat-icon-button class="close-button" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="signupForm" class="signup-form">
+      <div class="name-row">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="signupForm.controls['name'].hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="prenom" required>
+          <mat-error *ngIf="signupForm.controls['prenom'].hasError('required')">
+            Prename is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        <mat-error *ngIf="signupForm.controls['email'].hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="adresse" required>
+        <mat-error *ngIf="signupForm.controls['adresse'].hasError('required')">
+          Address is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="contactNumber" type="tel" required>
+        <mat-error *ngIf="signupForm.controls['contactNumber'].hasError('required')">
+          Phone number is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="signupForm.controls['password'].hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="confirmPassword" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="signupForm.controls['confirmPassword'].hasError('required')">
+          Please confirm your password
+        </mat-error>
+        <mat-error *ngIf="signupForm.hasError('passwordMismatch')">
+          Passwords do not match
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" (selectionChange)="onRoleChange($event)">
+          <mat-option value="client">Client</mat-option>
+          <mat-option value="livreur">Livreur</mat-option>
+          <mat-option value="restaurant">Restaurant</mat-option>
+          <mat-option value="entreprise">Entreprise</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <ng-container *ngIf="selectedRole === 'livreur'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Matricule Number</mat-label>
+          <input matInput formControlName="matriculeNumber" required>
+        </mat-form-field>
+      </ng-container>
+  
+      <ng-container *ngIf="selectedRole === 'restaurant'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Restaurant Name</mat-label>
+          <input matInput formControlName="restaurantName" required>
+        </mat-form-field>
+      </ng-container>
+
+      <ng-container *ngIf="selectedRole === 'entreprise'">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Entreprise Name</mat-label>
+          <input matInput formControlName="entrepriseName" required>
+        </mat-form-field>
+      </ng-container>
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" (click)="handleSubmit()" [disabled]="!signupForm.valid">
+      Sign Up
+    </button>
+  </mat-dialog-actions>

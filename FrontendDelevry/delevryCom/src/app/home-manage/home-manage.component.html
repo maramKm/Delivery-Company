@@ -1,0 +1,42 @@
+<div class="restaurant-container">
+    <div class="header">
+      <h1>Discover Top Restaurants</h1>
+      <p>Find the best dining experiences in your area</p>
+    </div>
+  
+    <div class="restaurants-grid">
+      <div class="restaurant-card" *ngFor="let restaurant of dataSource?.data">
+        <img [src]="restaurant.imageUrl || '/images.jpg'" alt="{{restaurant.nomRestau}}" class="restaurant-image">
+        
+        <div class="restaurant-info">
+          <h2 class="restaurant-name">{{restaurant.nomRestau}}</h2>
+          
+          <div class="rating">
+            <div class="stars">
+                <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                [class.filled]="star <= restaurant.rating">
+         {{star <= restaurant.rating ? 'star' : 'star_border'}}
+       </mat-icon>
+            </div>
+            <span class="rating-value">{{restaurant.rating | number:'1.1-1'}}/5</span>
+          </div>
+          
+          <div class="contact-info">
+            <div class="info-item">
+              <mat-icon>location_on</mat-icon>
+              <span>{{restaurant.addresse}}</span>
+            </div>
+            <div class="info-item">
+                <mat-icon>phone</mat-icon>
+              <a href="tel:{{restaurant.tel}}">{{restaurant.tel}}</a>
+            </div>
+          </div>
+          
+          <button mat-raised-button color="primary" class="menu-btn" (click)="handleViewMenu(restaurant.id)">
+            <mat-icon>restaurant_menu</mat-icon>View Menu
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

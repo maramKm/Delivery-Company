@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="container">
+    <div class="logo-container">
+      <div class="logo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.42 12.37a6.38 6.38 0 0 0-.58-1.65 5 5 0 0 0-1.53-1.5c-.55-.4-1.23-.76-2-.76H8.86"></path>
+            <path d="M7.12 20.28c-.56.56-2.31.56-2.87 0-.57-.56-.57-2.31 0-2.87.56-.56 2.31-.56 2.87 0 .57.56.57 2.31 0 2.87Z"></path>
+            <path d="M16.57 20.28c-.57.56-2.31.56-2.88 0-.56-.56-.56-2.31 0-2.87.57-.56 2.31-.56 2.88 0 .56.56.56 2.31 0 2.87Z"></path>
+            <path d="M7.12 13.28H5.75a2 2 0 0 1-2-2v-1.41a2 2 0 0 1 .59-1.42l2.56-2.56a2 2 0 0 1 1.42-.59H11"></path>
+            <path d="M16 16.01V18"></path>
+            <path d="M8 16.01V18"></path>
+            <path d="M11 13h5.25l2.25-7H6.5l-2.35 7m11.05 0-2.8-7"></path>
+          </svg>
+        <h1 class="logo-text">3jeja</h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="menu-toggle" mat-icon-button (click)="onMenuClick()" *ngIf="isMobile">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button class="profile-button" [matMenuTriggerFor]="profile" mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profile="matMenu" class="mymegamenu">
+        <button mat-menu-item>
+          <mat-icon>password</mat-icon>
+          <span>Change password</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</header>

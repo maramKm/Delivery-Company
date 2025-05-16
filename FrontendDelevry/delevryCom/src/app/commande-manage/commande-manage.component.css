@@ -1,0 +1,165 @@
+/* Theme Colors */
+:root {
+    --primary-color: #E53935;
+    --primary-light: #FFCDD2;
+    --primary-dark: #B71C1C;
+    --accent-color: #E53935;
+    --text-color: #333;
+    --light-gray: #f5f5f5;
+    --divider-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Header Card */
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.header-card span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Filter Card */
+.filter-card {
+    padding: 16px 24px;
+    margin-bottom: 16px;
+    background-color: white;
+}
+
+.search-field {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Divider */
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--divider-color);
+    margin: 16px 0;
+}
+
+/* Table Styles */
+.table-responsive {
+    overflow: auto;
+    border-radius: 4px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table th {
+    font-weight: 500;
+    color: var(--text-color);
+    background-color: var(--light-gray);
+    position: sticky;
+    top: 0;
+}
+
+.orders-table td, 
+.orders-table th {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.orders-table tr:not(:last-child) {
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.orders-table tr:hover {
+    background-color: rgba(229, 57, 53, 0.04);
+}
+
+/* Status Chips */
+mat-chip {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 16px;
+    color: white;
+}
+.status-pending {
+  background-color: orange;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.status-preparing {
+  background-color: blue;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.status-delivering {
+  background-color: teal;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.status-completed {
+  background-color: green;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.status-cancelled {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+/* Action Buttons */
+.action-edit {
+    color: #1976D2; /* Blue */
+}
+
+.action-cancel {
+    color: var(--primary-color); /* Your theme red */
+}
+
+.action-view {
+    color: #7B1FA2; /* Purple */
+}
+
+button[mat-icon-button] {
+    margin: 0 4px;
+    transition: all 0.2s;
+}
+
+button[mat-icon-button]:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .header-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+    
+    .filter-card {
+        padding: 12px 16px;
+    }
+    
+    .orders-table td, 
+    .orders-table th {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}

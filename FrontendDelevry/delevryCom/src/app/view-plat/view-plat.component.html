@@ -1,0 +1,43 @@
+<!-- view-plat.component.html -->
+<div class="menu-container">
+    <div class="menu-header">
+      <h1><mat-icon>restaurant</mat-icon> Menu for Restaurant {{idRestaurant}}</h1>
+      <button mat-stroked-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon> Back to Restaurants
+      </button>
+    </div>
+  
+    <div *ngIf="plats.length > 0; else noPlats" class="dishes-grid">
+      <mat-card *ngFor="let plat of plats" class="dish-card">
+        <div class="dish-image-container">
+          <img [src]="plat.imageUrl || 'pizza.jpg'" alt="{{plat.nom}}" class="dish-image">
+          <div class="dish-price">{{plat.prix | currency:'USD':'symbol':'1.2-2'}}</div>
+        </div>
+        
+        <mat-card-content>
+          <h2 class="dish-name">
+            <mat-icon class="dish-icon">local_dining</mat-icon>
+            {{plat.nom}}
+          </h2>
+          <p class="dish-description">
+            <mat-icon>description</mat-icon>
+            {{plat.description}}
+          </p>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-raised-button color="primary" class="order-btn" (click)="orderNow(plat)">
+            <mat-icon>add_shopping_cart</mat-icon> ORDER NOW
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  
+    <ng-template #noPlats>
+      <div class="empty-menu">
+        <mat-icon class="empty-icon">fastfood</mat-icon>
+        <h2>No menu items available</h2>
+        <p>This restaurant hasn't added any dishes yet</p>
+      </div>
+    </ng-template>
+  </div>

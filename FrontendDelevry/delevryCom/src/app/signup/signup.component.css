@@ -1,0 +1,157 @@
+/* Dialog Container */
+.mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #E53935;
+  color: white;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  color: white !important;
+}
+
+.close-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Dialog Content */
+.mat-dialog-content {
+  padding: 20px 24px !important;
+  max-height: 70vh !important;
+  overflow-y: auto;
+}
+
+/* Form Styles */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Form Fields */
+mat-form-field {
+  width: 100%;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #E53935 !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #E53935 !important;
+}
+
+/* Name Row */
+.name-row {
+  display: flex;
+  gap: 16px;
+}
+
+.name-row mat-form-field {
+  flex: 1;
+}
+
+/* Password Toggle */
+.mat-icon-button {
+  color: #757575 !important;
+}
+
+.mat-icon-button:hover {
+  color: #E53935 !important;
+}
+
+/* Select Dropdown */
+.mat-select-value {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.mat-select-arrow {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+/* Error Messages */
+mat-error {
+  color: #E53935 !important;
+  font-size: 12px;
+}
+
+/* Dialog Actions */
+.mat-dialog-actions {
+  padding: 16px 24px !important;
+  justify-content: center !important;
+  background-color: #f5f5f5;
+}
+
+.mat-dialog-actions button[mat-raised-button] {
+  background-color: #E53935 !important;
+  color: white !important;
+  padding: 0 24px;
+  height: 42px;
+  font-weight: 500;
+}
+
+.mat-dialog-actions button[mat-raised-button]:hover {
+  background-color: #AB000D !important;
+}
+
+.mat-dialog-actions button[mat-raised-button][disabled] {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+  color: rgba(0, 0, 0, 0.38) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .dialog-header {
+    padding: 12px 16px;
+  }
+  
+  .mat-dialog-content {
+    padding: 16px !important;
+  }
+  
+  .name-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .mat-dialog-actions {
+    padding: 12px 16px !important;
+  }
+  
+  .mat-dialog-actions button[mat-raised-button] {
+    width: 100%;
+  }
+}
+
+/* Scrollbar Styling */
+.mat-dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mat-dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.mat-dialog-content::-webkit-scrollbar-thumb {
+  background: #E53935;
+  border-radius: 3px;
+}

@@ -1,0 +1,11 @@
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
+  <app-nav (menuToggle)="toggleSidebar()"></app-nav>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  <app-sidebar [class.open]="isSidebarOpen"></app-sidebar>
+  <div class="sidebar-overlay" 
+       [class.open]="isSidebarOpen" 
+       (click)="closeSidebar()"
+       *ngIf="isMobileView"></div>
+</div>

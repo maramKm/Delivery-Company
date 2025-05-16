@@ -1,0 +1,202 @@
+/* cart.component.css */
+.cart-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .cart-container h1 {
+    color: #E53935;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .cart-item {
+    display: grid;
+    grid-template-columns: 100px 2fr 1fr 1fr 50px;
+    gap: 20px;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .item-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .item-details h3 {
+    margin: 0;
+    color: #2c3e50;
+  }
+  
+  .item-details p {
+    margin: 5px 0;
+    color: #7f8c8d;
+  }
+  
+  .item-price {
+    font-weight: bold;
+    color: #E53935;
+  }
+  
+  .item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .item-quantity span {
+    min-width: 20px;
+    text-align: center;
+  }
+  
+  .item-total {
+    font-weight: bold;
+    color: #2c3e50;
+  }
+  
+  .remove-btn {
+    color: #e74c3c;
+  }
+  
+  .cart-summary {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #E53935;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .total-section h3 {
+    color: #2c3e50;
+    margin: 0;
+  }
+  
+  .confirm-btn {
+    padding: 10px 25px;
+    font-weight: bold;
+  }
+  
+  .empty-cart {
+    text-align: center;
+    padding: 50px 20px;
+    color: #7f8c8d;
+  }
+  
+  .empty-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    color: #E53935;
+    margin-bottom: 20px;
+  }
+  
+  .empty-cart h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .cart-item {
+      grid-template-columns: 80px 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 10px;
+    }
+    
+    .item-details {
+      grid-column: 2;
+    }
+    
+    .item-quantity {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: start;
+    }
+    
+    .item-total {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: end;
+    }
+    
+    .remove-btn {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+    }
+    
+    .cart-summary {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  /* Delivery Address Section - Add to your existing cart.component.css */
+.delivery-section {
+  margin: 25px 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #E53935;
+}
+
+.delivery-section .mat-form-field {
+  width: 100%;
+}
+
+/* Label styling */
+.delivery-section .mat-form-field-label {
+  color: #7f8c8d !important;
+}
+
+/* Outline color when not focused */
+.delivery-section .mat-form-field-outline {
+  color: #bdc3c7;
+}
+
+/* Focused state */
+.delivery-section .mat-focused .mat-form-field-outline-thick {
+  color: #E53935 !important;
+}
+
+.delivery-section .mat-focused .mat-form-field-label {
+  color: #E53935 !important;
+}
+
+/* Textarea styling */
+.delivery-section textarea {
+  min-height: 80px;
+  padding: 10px !important;
+  color: #2c3e50;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Location icon */
+.delivery-section .mat-icon {
+  color: #E53935;
+  margin-right: 5px;
+}
+
+/* Error state */
+.delivery-section .mat-form-field-invalid .mat-form-field-outline-thick {
+  color: #c0392b !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .delivery-section {
+    padding: 15px;
+    margin: 20px 0;
+  }
+  
+  .delivery-section textarea {
+    min-height: 60px;
+  }
+}

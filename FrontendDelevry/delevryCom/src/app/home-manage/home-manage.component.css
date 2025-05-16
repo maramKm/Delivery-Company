@@ -1,0 +1,180 @@
+/* Restaurant Container */
+.restaurant-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  /* Header Styles */
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    color: #E53935; /* Primary red color */
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  .header p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* Restaurants Grid */
+  .restaurants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Restaurant Card */
+  .restaurant-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 3px solid #E53935;
+  }
+  
+  .restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .restaurant-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .restaurant-info {
+    padding: 20px;
+  }
+  
+  /* Restaurant Name */
+  .restaurant-name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  
+  /* Rating Styles */
+  .rating {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .stars {
+    color: #e4e5e9;
+    margin-right: 10px;
+  }
+  
+  .stars .filled {
+    color: #E53935; /* Primary red color for stars */
+  }
+  
+  .rating-value {
+    font-weight: bold;
+    color: #7f8c8d;
+  }
+  
+  /* Contact Info */
+  .contact-info {
+    margin-bottom: 20px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .info-item mat-icon {
+    margin-right: 10px;
+    color: #E53935; /* Primary red color for icons */
+    width: 20px;
+    text-align: center;
+  }
+  
+  .info-item a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .info-item a:hover {
+    color: #E53935; /* Primary red color on hover */
+  }
+  
+  /* Menu Button */
+  .menu-btn {
+    width: 100%;
+    padding: 10px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #E53935 !important; /* Primary red color */
+    color: white !important;
+  }
+  
+  /* Material Icons styling */
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  /* Star rating colors */
+  .stars mat-icon {
+    color: #e4e5e9; /* Default empty star color */
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+  
+  .stars mat-icon.filled {
+    color: #E53935; /* Filled star color */
+  }
+  
+  /* Contact info icons */
+  .info-item mat-icon {
+    color: #E53935;
+  }
+  
+  /* Menu button icon */
+  .menu-btn mat-icon {
+    margin-right: 8px;
+    font-size: 18px;
+    color: white;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .restaurants-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+    }
+    
+    .header p {
+      padding: 0 15px;
+    }
+  }
