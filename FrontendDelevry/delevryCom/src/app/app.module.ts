@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -42,6 +42,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommandeComponent } from './dialog/commande/commande.component';
 import { CommandeManageComponent } from './commande-manage/commande-manage.component';
+import { RestaurantEntrepComponent } from './restaurant-entrep/restaurant-entrep.component';
+import { AssignDelevryComponent } from './assign-delevry/assign-delevry.component';
 
 const ngxUiLoaderConfig : NgxUiLoaderConfig={
   text:"Loading...",
@@ -73,7 +75,9 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     ViewPlatComponent,
     CardComponent,
     CommandeComponent,
-    CommandeManageComponent
+    CommandeManageComponent,
+    RestaurantEntrepComponent,
+    AssignDelevryComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +102,7 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     MatTooltipModule,
     FormsModule,
     MatChipsModule,
-  
+  MatSlideToggleModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MenuItems],

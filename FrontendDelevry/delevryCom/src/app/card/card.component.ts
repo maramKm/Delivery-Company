@@ -109,23 +109,19 @@ export class CardComponent {
     }
 
     const restaurantId = this.cartItems[0].restaurantId;
-    const platIds = this.cartItems.flatMap(item => 
-      Array(item.quantity).fill(item.id)
-    );
+   const plats = this.cartItems.map(item => ({
+  id: item.id,
+  quantite: item.quantity
+}));
 
     const orderData = {
       clientId: userData.id,
       restaurantId: restaurantId,
-      platIds: platIds,
+      plats: plats,
       adresseLivraison: this.deliveryAddress,
-      montant: this.total
+      montant: this.total,
     };
     console.log(orderData);
-    console.log('Type check:', {
-      clientId: typeof userData.id,
-      restaurantId: typeof restaurantId,
-      platIds: platIds.map(id => typeof id)
-    });
 
     this.commandeService.createCommande(orderData).subscribe({
       next: () => {

@@ -18,7 +18,7 @@ import { ConfirmationComponent } from '../dialog/confirmation/confirmation.compo
   
 })
 export class CommandeManageComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'date', 'statut', 'total', 'actions'];
+  displayedColumns: string[] | undefined;
   dataSource: any;
   responseMessage: any;
   currentUser: any;
@@ -41,6 +41,7 @@ export class CommandeManageComponent implements OnInit {
 
   tableData() {
     if (this.currentUser && this.currentUser.role === 'CLIENT' && this.currentUser.id) {
+      this.displayedColumns= ['id', 'date', 'statut', 'total', 'actions'];
       this.commandeService.getCommandesByClient(this.currentUser.id).subscribe(
         (response: any) => {
           this.ngx.stop();
@@ -52,8 +53,40 @@ export class CommandeManageComponent implements OnInit {
         }
       );
     }
+        else if (this.currentUser && this.currentUser.role === 'RESTAURANT' && this.currentUser.id) {
+          this.displayedColumns = ['id', 'date', 'statut', 'total', 'client', 'actions'];
+      this.commandeService.getAllCommandeByRestaurant(this.currentUser.id).subscribe(
+        (response: any) => {
+          const filteredOrders = response.filter((order: any) => 
+            order.statut === 'EN_ATTENTE' || 
+            order.statut === 'EN_PREPARATION' 
+          );
+          
+          this.ngx.stop();
+          this.dataSource = new MatTableDataSource(filteredOrders);
+          
+        },
+        (error) => {
+          this.ngx.stop();
+          this.handleError(error);
+        }
+      );
+    }
   }
-
+  startPreparation(commandeId: number) {
+    this.ngx.start();
+    this.commandeService.preparerStatus(commandeId).subscribe(
+      (response: any) => {
+        this.ngx.stop();
+        this.snackBar.openSnackBar('Commande mise en préparation', 'success');
+        this.tableData(); // Refresh table
+      },
+      (error) => {
+        this.ngx.stop();
+        this.handleError(error);
+      }
+    );
+  }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -69,9 +102,9 @@ export class CommandeManageComponent implements OnInit {
   
     const dialogRef: MatDialogRef<CommandeComponent> = this.dialog.open(CommandeComponent, dialogConfig);
   
-    dialogRef.componentInstance.onModifyCommande.subscribe((formData: any) => {
+    /*dialogRef.componentInstance.onModifyCommande.subscribe((formData: any) => {
       this.modifyCommande(commande.id, formData);
-    });
+    });*/
   }
 
   modifyCommande(commandeId: number, data: any) {
@@ -90,36 +123,37 @@ export class CommandeManageComponent implements OnInit {
     );
   }
 
-  handleCancelAction(commandeId: number) {
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '450px',
-      data: {
-        message: 'cancel this order?',
-      }
-    });
+handleCancelAction(orderId: number) {
+  const dialogRef = this.dialog.open(ConfirmationComponent, {
+    width: '450px',
+    data: {
+      message: 'Cancel order',
+      confirmation: true // Nécessaire pour votre composant de confirmation existant
+    }
+  });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.cancelCommande(commandeId);
-      }
-    });
-  }
+  // Adaptation pour fonctionner avec votre EventEmitter existant
+  dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
+    this.cancelOrder(orderId);
+    dialogRef.close();
+  });
+}
 
-  cancelCommande(commandeId: number) {
+cancelOrder(orderId: number) {
     this.ngx.start();
-    this.commandeService.annuler(this.currentUser.id, { commandeId }).subscribe(
-      (response: any) => {
-        this.ngx.stop();
-        this.responseMessage = response?.message || 'Commande annulée avec succès';
-        this.snackBar.openSnackBar(this.responseMessage, 'success');
-        this.tableData();
-      },
-      (error) => {
-        this.ngx.stop();
-        this.handleError(error);
-      }
+    this.commandeService.anuuler(orderId).subscribe(
+        (response: any) => {
+            this.ngx.stop();
+            this.responseMessage = response || 'Order cancelled successfully';
+            this.snackBar.openSnackBar(this.responseMessage, 'success');
+            this.tableData();
+        },
+        (error) => {
+            this.ngx.stop();
+            this.handleError(error);
+        }
     );
-  }
+}
 
   private handleError(error: any) {
     this.ngx.stop();
@@ -136,7 +170,8 @@ getStatusLabel(status: string): string {
     'EN_PREPARATION': 'Preparing',
     'EN_LIVRAISON': 'Delivering',
     'LIVREE': 'Completed',
-    'ANNULEE': 'Cancelled'
+    'ANNULÉE': 'Cancelled',
+    'PREPARE' :'Ready'
   };
   return statusLabels[status?.toUpperCase()] || status;
 }
@@ -151,7 +186,7 @@ getStatusClass(status: string): string {
       return 'status-delivering';
     case 'LIVREE':
       return 'status-completed';
-    case 'ANNULEE':
+    case 'ANNULÉE':
       return 'status-cancelled';
     default:
       return '';
@@ -169,6 +204,21 @@ handleViewAction(commande: any) {
   const dialogRef = this.dialog.open(CommandeComponent, dialogConfig);
 
 }
+
+  markAsReady(commandeId: number) {
+    this.ngx.start();
+    this.commandeService.PretStatus(commandeId).subscribe(
+      (response: any) => {
+        this.ngx.stop();
+        this.snackBar.openSnackBar('Commande prête pour livraison', 'success');
+        this.tableData(); 
+      },
+      (error) => {
+        this.ngx.stop();
+        this.handleError(error);
+      }
+    );
+  }
 
 
 refreshOrders(){}

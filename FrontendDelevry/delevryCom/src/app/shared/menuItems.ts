@@ -14,6 +14,9 @@ const MENUITEMS: Menu[] = [
   { state: 'homeManage', name: 'Home', type: 'link', icon: 'home', role: ['CLIENT']},
   { state: 'cart', name: 'Cart', type: 'link', icon: 'shopping_cart', role: ['CLIENT']},
   { state: 'commande', name: 'Order', type: 'link', icon: 'assignment',  role: ['CLIENT', 'RESTAURANT']} ,
+  { state: 'restaurantManage', name: 'Manage Restaurants', type: 'link', icon: 'restaurant', role: ['ENTREPRISE']},
+  { state: 'AssignDelvry', name: 'Assign Delvry', type: 'link', icon: 'delevry', role: ['ENTREPRISE']},
+
 ];
 
 @Injectable()

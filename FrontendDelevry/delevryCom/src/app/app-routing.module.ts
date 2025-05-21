@@ -8,6 +8,8 @@ import { HomeManageComponent } from './home-manage/home-manage.component';
 import { ViewPlatComponent } from './view-plat/view-plat.component';
 import { CardComponent } from './card/card.component';
 import { CommandeManageComponent } from './commande-manage/commande-manage.component';
+import { RestaurantEntrepComponent } from './restaurant-entrep/restaurant-entrep.component';
+import { AssignDelevryComponent } from './assign-delevry/assign-delevry.component';
 
 const routes: Routes = [
   {
@@ -20,6 +22,9 @@ const routes: Routes = [
       { path:"viewwPlat/:restaurantId" , component:ViewPlatComponent},
       { path:"cart" , component:CardComponent},
       { path:"commande" , component:CommandeManageComponent},
+      { path:"restaurantManage" , component:RestaurantEntrepComponent},
+      { path:"AssignDelvry" , component:AssignDelevryComponent},
+
     ]
   },
   {

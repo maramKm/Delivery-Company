@@ -10,11 +10,13 @@ public class RestaurantDTO {
     private  String nomRestau;
     private  String tel;
     private  String addresse;
+    private boolean statut;
     public RestaurantDTO(Restaurant restaurant){
         this.id=restaurant.getId();
         this.addresse=restaurant.getAddresse();
         this.tel=restaurant.getTel();
         this.nomRestau=restaurant.getNomRestau();
+        this.statut=restaurant.getStatus();
     }
 
 

@@ -21,4 +21,10 @@ export class UserService {
       headers:new HttpHeaders().set('Content-Type','application/json')
     })
   }
+
+  changePaswword(data:any){
+    return this.httpClient.put(this.url + "/user/changePassword", data, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
+  }
 }

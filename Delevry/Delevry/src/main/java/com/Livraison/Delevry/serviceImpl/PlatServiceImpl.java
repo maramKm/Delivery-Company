@@ -88,7 +88,6 @@ public class PlatServiceImpl implements PlatService {
             plat.setNom(requestMap.get("nom"));
             plat.setDescription(requestMap.get("description"));
             plat.setPrix(requestMap.get("prix"));
-            plat.setImagePath(fileName); // Store only filename or relative path
             plat.setRestaurant(optionalRest.get());
 
             platDao.save(plat);
@@ -151,7 +150,6 @@ public class PlatServiceImpl implements PlatService {
     public ResponseEntity<Plat> updatePlatImage(Long id, String imagePath) {
         try{
             Plat plat = getPlat(id);
-            plat.setImagePath(imagePath);
             Plat savedPlat = platDao.save(plat);
             return new ResponseEntity<>(savedPlat, HttpStatus.OK);
         } catch (Exception e) {

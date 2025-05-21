@@ -18,7 +18,7 @@ public class Commande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long montant;
+    private Double montant;
     private LocalDateTime dateCommande;
     private String statut;
     private String adresseLivraison;
@@ -35,13 +35,8 @@ public class Commande {
     @JoinColumn(name = "livreur_id")
     private Personne livreur;
 
-    @ManyToMany
-    @JoinTable(
-            name = "commande_plat",
-            joinColumns = @JoinColumn(name = "commande_id"),
-            inverseJoinColumns = @JoinColumn(name = "plat_id")
-    )
-    private List<Plat> plats;
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommandePlat> commandePlats;
 
     public Commande(Personne livreur, Restaurant restaurant, Personne client, String adresseLivraison) {
         this.livreur = livreur;

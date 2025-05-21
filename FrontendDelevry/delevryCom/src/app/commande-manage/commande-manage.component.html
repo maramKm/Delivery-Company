@@ -14,7 +14,7 @@
 
 <hr class="divider">
 
-<div class="table-responsive">
+<div  *ngIf="currentUser?.role === 'CLIENT'" class="table-responsive">
     <table mat-table [dataSource]="dataSource" class="orders-table mat-elevation-z8">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef>Order ID</th>
@@ -41,33 +41,103 @@
             <td mat-cell *matCellDef="let element">{{element.montant | currency:'USD '}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-            <button mat-icon-button class="action-edit" 
-                    *ngIf="element.statut?.toUpperCase() === 'EN_ATTENTE'"
-                    (click)="handleModifyAction(element)"
-                    matTooltip="Edit order">
+<ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+        <button mat-icon-button class="action-edit" 
+                *ngIf="element.statut?.toUpperCase() === 'EN_ATTENTE'"
+                (click)="handleModifyAction(element)"
+                matTooltip="Edit order">
             <mat-icon>edit</mat-icon>
-            </button>
-
-            <button mat-icon-button class="action-cancel" 
-                    *ngIf="element.statut?.toUpperCase() === 'EN_ATTENTE'"
-                    (click)="handleCancelAction(element.id)"
-                    matTooltip="Cancel order">
+        </button>
+        
+        <button mat-icon-button class="action-cancel" 
+                *ngIf="element.statut?.toUpperCase() === 'EN_ATTENTE'"
+                (click)="handleCancelAction(element.id)"
+                matTooltip="Cancel order">
             <mat-icon>cancel</mat-icon>
-            </button>
+        </button>
 
-            <button mat-icon-button class="action-view" 
+        <button mat-icon-button class="action-view" 
                     (click)="handleViewAction(element)"
                     matTooltip="View details">
             <mat-icon>visibility</mat-icon>
             </button>
+            
         </td>
         </ng-container>
 
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+
+<div *ngIf="currentUser?.role === 'RESTAURANT'" class="table-responsive">
+    <table mat-table [dataSource]="dataSource" class="orders-table mat-elevation-z8">
+        <!-- Restaurant columns -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Order ID</th>
+            <td mat-cell *matCellDef="let element">#{{element.id}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let element">{{element.dateCommande | date:'medium'}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="client">
+            <th mat-header-cell *matHeaderCellDef>Client</th>
+            <td mat-cell *matCellDef="let element">{{element.client?.nom || 'N/A'}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="statut">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+                <span [ngClass]="getStatusClass(element.statut)">
+                    {{ getStatusLabel(element.statut) }}
+                </span>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">{{element.montant | currency:'USD '}}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="restaurantActions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+                <!-- View Button (always visible) -->
+                <button mat-icon-button class="action-view" 
+                        (click)="handleViewAction(element)"
+                        matTooltip="View details">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+                
+                <!-- Start Preparation Button (only for PENDING orders) -->
+                <button mat-raised-button color="primary" 
+                        *ngIf="element.statut === 'EN_ATTENTE'"
+                        (click)="startPreparation(element.id)"
+                        matTooltip="Start preparation">
+                    <mat-icon>kitchen</mat-icon>
+                    Start Preparation
+                </button>
+                
+                <!-- Confirm Ready Button (only for IN_PREPARATION orders) -->
+                <button mat-raised-button color="accent" 
+                        *ngIf="element.statut === 'EN_PREPARATION'"
+                        (click)="markAsReady(element.id)"
+                        matTooltip="Mark as ready">
+                    <mat-icon>done</mat-icon>
+                    Ready
+                </button>
+            </td>
+        </ng-container>
+        
+        <!-- Different displayed columns for restaurant -->
+        <tr mat-header-row *matHeaderRowDef="['id', 'date', 'client', 'statut', 'total', 'restaurantActions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'date', 'client', 'statut', 'total', 'restaurantActions'];"></tr>
     </table>
 </div>

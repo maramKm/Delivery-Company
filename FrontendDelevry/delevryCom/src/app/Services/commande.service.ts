@@ -26,19 +26,36 @@ export class CommandeService {
     return this.http.put<string>(`${this.url}/commande/${commandeId}/modifier`, data);
   }
 
-  annuler(clientId: number, body: any): Observable<any> {
-    return this.http.put(`${this.url}/commande/${clientId}/annuler`, body);
-  }
+ anuuler(orderId: number): Observable<string> {
+  return this.http.put<string>(
+    `${this.url}/commande/${orderId}/annuler`, 
+    null,  // No request body needed
+    { responseType: 'text' as 'json' }  // To properly handle string response
+  );
+}
   
-  getCommandesByStatutsAndRestaurant(statuts: string[], restaurantId: number): Observable<Commande[]> {
-    const statutParams = statuts.map(s => `statut=${encodeURIComponent(s)}`).join('&');
-    return this.http.get<Commande[]>(`${this.url}/commande?${statutParams}&restaurantId=${restaurantId}`);
-  }
+  getCommandeDetails(commandeId: number): Observable<any> {
+  return this.http.get(`${this.url}/commande/details/${commandeId}`);
+}
 
-  notifyLivreursDisponibles(commandeId: number): Observable<any> {
-    return this.http.post(`${this.url}/commande/${commandeId}/notify-livreurs`, {});
-  }
-  
-  
+
+  getAllCommandeByRestaurant(commandeId : number): Observable<any> {
+  return this.http.get(`${this.url}/commande/restaurant/${commandeId}`);
+}
+
+ preparerStatus(commandeId:number): Observable<string> {
+  return this.http.put<string>(
+    `${this.url}/commande/${commandeId}/changerStatut`, 
+    null,  // No request body needed
+    { responseType: 'text' as 'json' }  // To properly handle string response
+  );
+} 
+PretStatus(commandeId:number): Observable<string> {
+  return this.http.put<string>(
+    `${this.url}/commande/${commandeId}/pret`, 
+    null,  // No request body needed
+    { responseType: 'text' as 'json' }  // To properly handle string response
+  );
+} 
 
 }

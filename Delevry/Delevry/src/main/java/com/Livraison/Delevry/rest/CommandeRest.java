@@ -36,4 +36,10 @@ public interface CommandeRest {
 
     @GetMapping("/statut/{statut}")
     ResponseEntity<List<CommandeDTO>> getCommandesByStatut(@PathVariable String statut);
+
+    @GetMapping("/details/{commandeId}")
+    public ResponseEntity<CommandeDTO> getCommandeDetails(@PathVariable Long commandeId);
+
+    @PutMapping("/{commandeId}/pret")
+    ResponseEntity<String> changerStatutPrete(@PathVariable Long commandeId);
 }

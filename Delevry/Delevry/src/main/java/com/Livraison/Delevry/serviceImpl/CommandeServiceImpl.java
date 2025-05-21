@@ -30,77 +30,61 @@ public class CommandeServiceImpl implements CommandeService {
     @Autowired
     LivreurDao livreurDao;
 
+    @Autowired
+    LivraisonDao livraisonDao;
+
     @Override
     public ResponseEntity<Map<String, String>> AddCommande(Map<String, Object> requestMap) {
         try {
-            // Récupération des IDs
             Long clientId = Long.parseLong(requestMap.get("clientId").toString());
             Long restaurantId = Long.parseLong(requestMap.get("restaurantId").toString());
-            List<Integer> platIdsInt = (List<Integer>) requestMap.get("platIds");
-            List<Long> platIds = platIdsInt.stream()
-                    .map(Integer::longValue)
-                    .collect(Collectors.toList());
 
-            // Récupération des entités - USE CORRECT REPOSITORIES
             Personne client = clientDao.findById(clientId).orElse(null);
             Restaurant restaurant = clientDao.findRestaurantById(restaurantId)
                     .map(p -> (Restaurant) p)
                     .orElse(null);
 
-            // Validation de l'existence du client et du restaurant
-            if (client == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "Client introuvable");
-                return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+            if (client == null || restaurant == null) {
+                return new ResponseEntity<>(Map.of("message", "Client ou restaurant introuvable"), HttpStatus.NOT_FOUND);
             }
 
-            if (restaurant == null) {
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "Restaurant introuvable");
-                return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-            }
-
-            // Vérification des plats
-            List<Plat> plats = platDao.findAllById(platIds);
-            if (plats.isEmpty()) {
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "Aucun plat trouvé");
-                return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-            }
-
-            // Validation du montant
-            double montant = Double.parseDouble(requestMap.get("montant").toString());
-            if (montant <= 0) {
-                Map<String, String> error = new HashMap<>();
-                error.put("message", "Le montant de la commande doit être positif");
-                return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-            }
-
-            // Création de la commande
             Commande commande = new Commande();
             commande.setClient(client);
             commande.setRestaurant(restaurant);
-            commande.setPlats(plats);
             commande.setDateCommande(LocalDateTime.now());
             commande.setStatut("EN_ATTENTE");
             commande.setAdresseLivraison((String) requestMap.get("adresseLivraison"));
-            commande.setMontant((long) montant);
-            commande.setLivreur(null);
+            commande.setMontant(Double.parseDouble(requestMap.get("montant").toString()));
+            commande.setLivreur(null); // pas encore assigné
 
-            // Enregistrement de la commande
+            List<Map<String, Object>> platsList = (List<Map<String, Object>>) requestMap.get("plats");
+            List<CommandePlat> commandePlats = new ArrayList<>();
+
+            for (Map<String, Object> item : platsList) {
+                Long platId = Long.parseLong(item.get("id").toString());
+                int quantite = Integer.parseInt(item.get("quantite").toString());
+                Plat plat = platDao.findById(platId).orElse(null);
+                if (plat != null) {
+                    CommandePlat cp = new CommandePlat();
+                    cp.setPlat(plat);
+                    cp.setQuantite(quantite);
+                    cp.setCommande(commande); // à lier à la commande
+                    commandePlats.add(cp);
+                }
+            }
+
+            commande.setCommandePlats(commandePlats);
+
             commandeDao.save(commande);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Commande créée avec succès");
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message", "Commande créée avec succès"), HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "Erreur lors de la création de commande");
-            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Map.of("message", "Erreur lors de la création de commande"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     @Override
@@ -113,7 +97,45 @@ public class CommandeServiceImpl implements CommandeService {
             }
 
             Commande commande = commandeOpt.get();
-            commande.setStatut("PREPARATION");
+            commande.setStatut("EN_PREPARATION");
+            commandeDao.save(commande);
+
+            return new ResponseEntity<>("Statut de la commande mis à jour avec succès", HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Erreur lors de la mise à jour du statut", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<CommandeDTO> getCommandeDetails(Long commandeId) {
+        try {
+            Optional<Commande> optionalCommande = commandeDao.findById(commandeId);
+
+            if (optionalCommande.isPresent()) {
+                CommandeDTO dto = new CommandeDTO(optionalCommande.get());
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> changerStatutPrete(Long commandeId) {
+        try {
+            Optional<Commande> commandeOpt = commandeDao.findById(commandeId);
+
+            if (!commandeOpt.isPresent()) {
+                return new ResponseEntity<>("Commande non trouvée", HttpStatus.NOT_FOUND);
+            }
+
+            Commande commande = commandeOpt.get();
+            commande.setStatut("PREPARE");
             commandeDao.save(commande);
 
             return new ResponseEntity<>("Statut de la commande mis à jour avec succès", HttpStatus.OK);
@@ -135,7 +157,7 @@ public class CommandeServiceImpl implements CommandeService {
             Commande commande = commandeOpt.get();
 
             // Étape 2 : Vérifier si la commande est déjà en préparation (statut PREPARATION)
-            if (!commande.getStatut().equals("PREPARATION")) {
+            if (!commande.getStatut().equals("EN_PREPARATION")) {
                 return new ResponseEntity<>("La commande n'est pas encore en préparation", HttpStatus.BAD_REQUEST);
             }
 
@@ -156,6 +178,9 @@ public class CommandeServiceImpl implements CommandeService {
             commande.setStatut("LIVRAISON");
             commandeDao.save(commande);  // Sauvegarder la commande avec son nouveau statut
 
+            Livraison livraison = new Livraison(commande.getStatut(),LocalDateTime.now(),commande,livreur);
+            livraisonDao.save(livraison);
+
             return new ResponseEntity<>("Livreur assigné et statut de commande mis à jour", HttpStatus.OK);
 
         } catch (Exception e) {
@@ -168,23 +193,23 @@ public class CommandeServiceImpl implements CommandeService {
         try {
             Optional<Commande> commandeOpt = commandeDao.findById(commandeId);
             if (!commandeOpt.isPresent()) {
-                return new ResponseEntity<>("Commande non trouvée", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Order not found", HttpStatus.NOT_FOUND);
             }
 
             Commande commande = commandeOpt.get();
 
             // Vérifier si le statut est "EN ATTENTE"
-            if (commande.getStatut().equals("EN ATTENTE")) {
+            if (commande.getStatut().equals("EN_ATTENTE")) {
                 commande.setStatut("ANNULÉE");  // Changer le statut à "ANNULÉE"
                 commandeDao.save(commande);
-                return new ResponseEntity<>("Commande annulée avec succès", HttpStatus.OK);
+                return new ResponseEntity<>("Order cancelled successfully", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("La commande ne peut pas être annulée, car elle n'est pas en attente", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Order cannot be cancelled because it's not in PENDING status", HttpStatus.BAD_REQUEST);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Erreur lors de l'annulation de la commande", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error while cancelling the order", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @Override
@@ -205,21 +230,21 @@ public class CommandeServiceImpl implements CommandeService {
             // Ajouter les nouveaux plats
             if (request.getPlatsIds() != null && !request.getPlatsIds().isEmpty()) {
                 List<Plat> platsToAdd = platDao.findAllById(request.getPlatsIds());
-                commande.getPlats().addAll(platsToAdd);
+               // commande.getPlats().addAll(platsToAdd);
             }
 
             // Supprimer les plats existants
             if (request.getPlatsASupprimerIds() != null && !request.getPlatsASupprimerIds().isEmpty()) {
-                commande.getPlats().removeIf(plat -> request.getPlatsASupprimerIds().contains(plat.getId()));
+               // commande.getPlats().removeIf(plat -> request.getPlatsASupprimerIds().contains(plat.getId()));
             }
 
             // Recalculer le montant total de la commande
-            long montantTotal = Math.round(
-                    commande.getPlats().stream()
+           /* long montantTotal = Math.round(
+                   // commande.getPlats().stream()
                             .mapToDouble(plat -> Double.parseDouble(plat.getPrix()))
                             .sum()
             );
-            commande.setMontant(montantTotal);
+            commande.setMontant(montantTotal);*/
 
             // Sauvegarder les changements
             commandeDao.save(commande);
@@ -266,14 +291,10 @@ public class CommandeServiceImpl implements CommandeService {
     @Override
     public ResponseEntity<List<CommandeDTO>> getCommandesByClient(Long clientId) {
         try {
-            // Récupérer les commandes par client
             List<Commande> commandes = commandeDao.findByClientId(clientId);
-
-            // Transformer chaque Commande en CommandeDTO
             List<CommandeDTO> commandeDTOs = commandes.stream()
-                    .map(CommandeDTO::new)  // Transformation en CommandeDTO
+                    .map(CommandeDTO::new)
                     .collect(Collectors.toList());
-
             return new ResponseEntity<>(commandeDTOs, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

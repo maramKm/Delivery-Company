@@ -19,4 +19,6 @@ public interface CommandeService {
     ResponseEntity<List<CommandeDTO>>getCommandesByClient(Long IdClient);
     ResponseEntity<List<CommandeDTO>> getCommandesByLivreur(Long livreurId);
     ResponseEntity<List<CommandeDTO>>getCommandesByStatut(String statut);
+    ResponseEntity<CommandeDTO> getCommandeDetails( Long commandeId);
+    ResponseEntity<String>changerStatutPrete(Long commandeId);
 }

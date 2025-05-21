@@ -128,4 +128,24 @@ public class CommandeRestImpl implements CommandeRest {
         }
     }
 
+    @Override
+    public ResponseEntity<CommandeDTO> getCommandeDetails(Long commandeId) {
+        try {
+            return commandeService.getCommandeDetails(commandeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> changerStatutPrete(Long commandeId) {
+        try {
+            return commandeService.changerStatutPrete(commandeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
