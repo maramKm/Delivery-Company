@@ -1,12 +1,15 @@
 <div class="app-container" [class.sidebar-open]="isSidebarOpen">
   <app-nav (menuToggle)="toggleSidebar()"></app-nav>
+
   <div class="content-wrapper">
-    <app-sidebar [isOpen]="isSidebarOpen" [class.open]="isSidebarOpen"></app-sidebar>
+    <app-sidebar [isOpen]="isSidebarOpen" class="sidebar" [class.open]="isSidebarOpen"></app-sidebar>
+
     <main class="main-content">
       <router-outlet></router-outlet>
     </main>
   </div>
-  <div class="sidebar-overlay" 
-       [class.visible]="isSidebarOpen && isMobileView" 
+
+  <div class="sidebar-overlay"
+       [class.visible]="isSidebarOpen && isMobileView"
        (click)="closeSidebar()"></div>
 </div>

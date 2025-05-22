@@ -84,7 +84,7 @@
 .status-preparing,
 .status-delivering,
 .status-completed,
-.status-ready
+.status-ready,
 .status-cancelled {
   display: inline-block;
   padding: 6px 14px;
