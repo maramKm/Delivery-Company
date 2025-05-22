@@ -1,0 +1,30 @@
+/* Add your custom styles here */
+.status-pending {
+  color: #ff9800;
+  font-weight: 500;
+}
+.status-preparing {
+  color: #2196f3;
+  font-weight: 500;
+}
+.status-delivering {
+  color: #673ab7;
+  font-weight: 500;
+}
+.status-completed {
+  color: #4caf50;
+  font-weight: 500;
+}
+.status-cancelled {
+  color: #f44336;
+  font-weight: 500;
+}
+
+/* Card styles for delivery persons */
+.card {
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

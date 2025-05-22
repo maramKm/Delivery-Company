@@ -47,15 +47,6 @@ public class CommandeRestImpl implements CommandeRest {
         return new ResponseEntity<>("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Override
-    public ResponseEntity<String> assignerLivreur(Long commandeId) {
-        try {
-            return commandeService.assignerLivreurEtChangerStatut(commandeId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     @Override
     public ResponseEntity<String> anuulerCommande(Long commandeId) {

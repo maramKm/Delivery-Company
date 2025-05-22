@@ -1,0 +1,150 @@
+<div class="container mt-4">
+    <h1 class="mb-4">Mes Livraisons</h1>
+
+    <!-- Filter and search -->
+    <div class="mb-3">
+        <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Rechercher</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer les livraisons">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <!-- Livraisons à confirmer -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Livraisons à confirmer</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="livraisonsAConfirmer" class="mat-elevation-z8 w-100">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                    </ng-container>
+
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Date</th>
+                        <td mat-cell *matCellDef="let element">{{element.dateLivraison | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </ng-container>
+
+                    <!-- Adresse Column -->
+                    <ng-container matColumnDef="adresse">
+                        <th mat-header-cell *matHeaderCellDef>Adresse</th>
+                        <td mat-cell *matCellDef="let element">{{element.adresse}}</td>
+                    </ng-container>
+
+                    <!-- Livreur Column -->
+                   
+
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button color="primary" 
+                                    (click)="confirmerLivraison(element.id)">
+                                Confirmer
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="aConfirmerColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: aConfirmerColumns;"></tr>
+                </table>
+            </div>
+            <div *ngIf="livraisonsAConfirmer.data.length === 0" class="text-center py-3">
+                <p>Aucune livraison à confirmer</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Livraisons en cours -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Livraisons en cours</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="livraisonsEnCours" class="mat-elevation-z8 w-100">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                    </ng-container>
+
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Date</th>
+                        <td mat-cell *matCellDef="let element">{{element.dateLivraison | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </ng-container>
+
+                    <!-- Adresse Column -->
+                    <ng-container matColumnDef="adresse">
+                        <th mat-header-cell *matHeaderCellDef>Adresse</th>
+                        <td mat-cell *matCellDef="let element">{{element.adresse}}</td>
+                    </ng-container>
+
+                    <!-- Statut Column -->
+                    <ng-container matColumnDef="statut">
+                        <th mat-header-cell *matHeaderCellDef>Statut</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="badge" [ngClass]="{
+                                'bg-warning': element.statut === 'EN_ATTENTE',
+                                'bg-info': element.statut === 'EN_COURS'
+                            }">
+                                {{getStatusLabel(element.statut)}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="enCoursColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: enCoursColumns;"></tr>
+                </table>
+            </div>
+            <div *ngIf="livraisonsEnCours.data.length === 0" class="text-center py-3">
+                <p>Aucune livraison en cours</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Livraisons terminées -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Livraisons terminées</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="livraisonsTerminees" class="mat-elevation-z8 w-100">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                    </ng-container>
+
+                    <!-- Date Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Date</th>
+                        <td mat-cell *matCellDef="let element">{{element.dateLivraison | date:'dd/MM/yyyy HH:mm'}}</td>
+                    </ng-container>
+
+                    <!-- Adresse Column -->
+                    <ng-container matColumnDef="adresse">
+                        <th mat-header-cell *matHeaderCellDef>Adresse</th>
+                        <td mat-cell *matCellDef="let element">{{element.adresse}}</td>
+                    </ng-container>
+
+                    <!-- Livreur Column -->
+             
+
+                    <tr mat-header-row *matHeaderRowDef="termineesColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: termineesColumns;"></tr>
+                </table>
+            </div>
+            <div *ngIf="livraisonsTerminees.data.length === 0" class="text-center py-3">
+                <p>Aucune livraison terminée</p>
+            </div>
+        </div>
+    </div>
+</div>

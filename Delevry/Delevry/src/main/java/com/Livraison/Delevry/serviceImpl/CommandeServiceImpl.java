@@ -147,48 +147,6 @@ public class CommandeServiceImpl implements CommandeService {
     }
 
     @Override
-    public ResponseEntity<String> assignerLivreurEtChangerStatut(Long commandeId) {
-        try {
-            // Étape 1 : Récupérer la commande par son ID
-            Optional<Commande> commandeOpt = commandeDao.findById(commandeId);
-            if (!commandeOpt.isPresent()) {
-                return new ResponseEntity<>("Commande non trouvée", HttpStatus.NOT_FOUND);
-            }
-            Commande commande = commandeOpt.get();
-
-            // Étape 2 : Vérifier si la commande est déjà en préparation (statut PREPARATION)
-            if (!commande.getStatut().equals("EN_PREPARATION")) {
-                return new ResponseEntity<>("La commande n'est pas encore en préparation", HttpStatus.BAD_REQUEST);
-            }
-
-            // Étape 3 : Chercher un livreur disponible
-            Optional<Livreur> livreurOpt = livreurDao.findByDispoTrue();
-            if (!livreurOpt.isPresent()) {
-                return new ResponseEntity<>("Aucun livreur disponible", HttpStatus.NOT_FOUND);
-            }
-
-            Livreur livreur = livreurOpt.get();
-
-            // Étape 4 : Assigner le livreur à la commande
-            commande.setLivreur(livreur);
-            livreur.setDispo(false);  // Le livreur n'est plus disponible après être assigné
-            livreurDao.save(livreur);  // Sauvegarder les changements du livreur
-
-            // Étape 5 : Mettre à jour le statut de la commande à "LIVRAISON"
-            commande.setStatut("LIVRAISON");
-            commandeDao.save(commande);  // Sauvegarder la commande avec son nouveau statut
-
-            Livraison livraison = new Livraison(commande.getStatut(),LocalDateTime.now(),commande,livreur);
-            livraisonDao.save(livraison);
-
-            return new ResponseEntity<>("Livreur assigné et statut de commande mis à jour", HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Erreur lors de l'assignation du livreur", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    @Override
     public ResponseEntity<String> annulerCommande(Long commandeId) {
         try {
             Optional<Commande> commandeOpt = commandeDao.findById(commandeId);

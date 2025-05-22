@@ -16,6 +16,8 @@ const MENUITEMS: Menu[] = [
   { state: 'commande', name: 'Order', type: 'link', icon: 'assignment',  role: ['CLIENT', 'RESTAURANT']} ,
   { state: 'restaurantManage', name: 'Manage Restaurants', type: 'link', icon: 'restaurant', role: ['ENTREPRISE']},
   { state: 'AssignDelvry', name: 'Assign Delvry', type: 'link', icon: 'delevry', role: ['ENTREPRISE']},
+   { state: 'livreur', name: ' Delvry', type: 'link', icon: 'delevry', role: ['LIVREUR']},
+  { state: 'client', name: ' Delvry', type: 'link', icon: 'delevry', role: ['CLIENT']},
 
 ];
 

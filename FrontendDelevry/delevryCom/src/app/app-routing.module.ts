@@ -10,6 +10,8 @@ import { CardComponent } from './card/card.component';
 import { CommandeManageComponent } from './commande-manage/commande-manage.component';
 import { RestaurantEntrepComponent } from './restaurant-entrep/restaurant-entrep.component';
 import { AssignDelevryComponent } from './assign-delevry/assign-delevry.component';
+import { LivreurComponent } from './livreur/livreur.component';
+import { ClientComponent } from './client/client.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,8 @@ const routes: Routes = [
       { path:"commande" , component:CommandeManageComponent},
       { path:"restaurantManage" , component:RestaurantEntrepComponent},
       { path:"AssignDelvry" , component:AssignDelevryComponent},
+            { path:"livreur" , component:LivreurComponent},
+      { path:"client" , component:ClientComponent},
 
     ]
   },

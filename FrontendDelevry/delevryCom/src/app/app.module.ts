@@ -47,7 +47,8 @@ import { AssignDelevryComponent } from './assign-delevry/assign-delevry.componen
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { LivreurComponent } from './livreur/livreur.component';
+import { ClientComponent } from './client/client.component';
 
 const ngxUiLoaderConfig : NgxUiLoaderConfig={
   text:"Loading...",
@@ -81,7 +82,9 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     CommandeComponent,
     CommandeManageComponent,
     RestaurantEntrepComponent,
-    AssignDelevryComponent
+    AssignDelevryComponent,
+      LivreurComponent,
+    ClientComponent
   ],
   imports: [
     BrowserModule,

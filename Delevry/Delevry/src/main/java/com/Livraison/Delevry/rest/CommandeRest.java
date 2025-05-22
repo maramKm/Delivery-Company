@@ -17,8 +17,7 @@ public interface CommandeRest {
     @PutMapping("/{commandeId}/changerStatut")
     ResponseEntity<String> changerStatut(@PathVariable Long commandeId);
     @PutMapping("/{commandeId}/assignerLivreur")
-    ResponseEntity<String> assignerLivreur(@PathVariable Long commandeId) ;
-    @PutMapping(path = "/{commandeId}/annuler")
+
     ResponseEntity<String> anuulerCommande(@PathVariable Long commandeId);
     @PutMapping("/{commandeId}/modifier")
     public ResponseEntity<String> modifierCommande(@PathVariable Long commandeId, @RequestBody CommandeModif request);

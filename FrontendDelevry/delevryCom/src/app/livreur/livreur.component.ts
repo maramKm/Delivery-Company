@@ -6,35 +6,41 @@ import { LivraisonService } from '../Services/livraison.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalConstant } from '../shared/globalConstant';
 import { ConfirmationComponent } from '../dialog/confirmation/confirmation.component';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
-  selector: 'app-assign-delevry',
-  standalone:false,
-  templateUrl: './assign-delevry.component.html',
-  styleUrls: ['./assign-delevry.component.css']
+  selector: 'app-livreur',
+  standalone: false,
+  templateUrl: './livreur.component.html',
+  styleUrls: ['./livreur.component.css']
 })
-export class AssignDelevryComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'date', 'client', 'restaurant', 'actions'];
+export class LivreurComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'date', 'client', 'restaurant', 'statut', 'actions'];
   dataSource: any;
-  livreursDisponibles: any[] = [];
-  selectedLivraison: any;
   responseMessage: any;
-  isLoading = false;
+  livreurId!: number;
 
   constructor(
     private livraisonService: LivraisonService,
     private ngx: NgxUiLoaderService,
     private snackBar: SnackbarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.livreurId = this.authService.getCurrentUserId()!;
     this.ngx.start();
-    this.loadPendingDeliveries();
+    this.loadDeliveries();
+    
+    // Refresh every 30 seconds
+    setInterval(() => {
+      this.loadDeliveries();
+    }, 30000);
   }
 
-  loadPendingDeliveries() {
-    this.livraisonService.getLivraisonsEnAttente().subscribe(
+  loadDeliveries() {
+    this.livraisonService.getLivraisonsLivreur(this.livreurId).subscribe(
       (response: any) => {
         this.ngx.stop();
         this.dataSource = new MatTableDataSource(response);
@@ -46,17 +52,34 @@ export class AssignDelevryComponent implements OnInit {
     );
   }
 
-  selectDelivery(livraison: any) {
-    this.selectedLivraison = livraison;
-    this.loadAvailableDeliveryPersons();
+  acceptDelivery(livraisonId: number) {
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '450px',
+      data: {
+        message: 'Accept this delivery?',
+        confirmation: true
+      }
+    });
+
+    dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
+      this.confirmAcceptance(livraisonId);
+      dialogRef.close();
+    });
   }
 
-  loadAvailableDeliveryPersons() {
+  confirmAcceptance(livraisonId: number) {
     this.ngx.start();
-    this.livraisonService.getLivreursDisponibles().subscribe(
+    const data = {
+      livraisonId: livraisonId,
+      livreurId: this.livreurId
+    };
+    console.log('Sending payload:', data);
+    this.livraisonService.accepterLivraison(data).subscribe(
       (response: any) => {
         this.ngx.stop();
-        this.livreursDisponibles = response;
+        this.responseMessage = response?.message || 'Delivery accepted successfully';
+        this.snackBar.openSnackBar(this.responseMessage, 'success');
+        this.loadDeliveries();
       },
       (error) => {
         this.ngx.stop();
@@ -65,33 +88,29 @@ export class AssignDelevryComponent implements OnInit {
     );
   }
 
-  assignDeliveryPerson(livreur: any) {
+  markAsDelivered(livraisonId: number) {
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '450px',
       data: {
-        message: `Assign ${livreur.prenom} ${livreur.nom} to delivery #${this.selectedLivraison.id}?`,
+        message: 'Mark this delivery as completed?',
         confirmation: true
       }
     });
 
     dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
-      this.confirmAssignment(livreur.id);
-      console.log(livreur.id)
+      this.confirmDeliveryCompletion(livraisonId);
       dialogRef.close();
     });
   }
 
-  confirmAssignment(livreurId: number) {
+  confirmDeliveryCompletion(livraisonId: number) {
     this.ngx.start();
-    console.log(this.selectedLivraison.id, livreurId)
-    this.livraisonService.affecterLivreur(this.selectedLivraison.id, livreurId).subscribe(
+    this.livraisonService.marquerCommeLivree(livraisonId).subscribe(
       (response: any) => {
         this.ngx.stop();
-        this.responseMessage = response?.message || 'Delivery person assigned successfully';
+        this.responseMessage = response?.message || 'Delivery marked as completed';
         this.snackBar.openSnackBar(this.responseMessage, 'success');
-        this.loadPendingDeliveries();
-        this.selectedLivraison = null;
-        this.livreursDisponibles = [];
+        this.loadDeliveries();
       },
       (error) => {
         this.ngx.stop();
@@ -117,10 +136,11 @@ export class AssignDelevryComponent implements OnInit {
 
   getStatusLabel(status: string): string {
     const statusLabels: { [key: string]: string } = {
-      'EN_ATTENTE': 'Pending',
-      'EN_PREPARATION': 'Preparing',
-      'EN_LIVRAISON': 'Delivering',
-      'LIVREE': 'Completed',
+      'EN_ATTENTE': 'Pending Acceptance',
+      'EN_COURS': 'In Progress',
+      'LIVREE': 'Delivered',
+      'CONFIRMEE': 'Confirmed',
+      'PREPARE': 'Ready for Delivery',
       'ANNULÉE': 'Cancelled'
     };
     return statusLabels[status?.toUpperCase()] || status;
@@ -130,12 +150,14 @@ export class AssignDelevryComponent implements OnInit {
     switch (status?.toUpperCase()) {
       case 'EN_ATTENTE':
         return 'status-pending';
-      case 'EN_PREPARATION':
-        return 'status-preparing';
-      case 'EN_LIVRAISON':
-        return 'status-delivering';
+      case 'EN_COURS':
+        return 'status-in-progress';
       case 'LIVREE':
-        return 'status-completed';
+        return 'status-delivered';
+      case 'CONFIRMEE':
+        return 'status-confirmed';
+      case 'PREPARE':
+        return 'status-ready';
       case 'ANNULÉE':
         return 'status-cancelled';
       default:

@@ -1,0 +1,60 @@
+.status-pending {
+  color: #ff9800;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #fff3e0;
+}
+
+.status-preparing {
+  color: #2196f3;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #e3f2fd;
+}
+
+.status-delivering {
+  color: #673ab7;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #ede7f6;
+}
+
+.status-completed {
+  color: #4caf50;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #e8f5e9;
+}
+
+.status-cancelled {
+  color: #f44336;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #ffebee;
+}
+
+.status-ready {
+  color: #ff5722;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #fbe9e7;
+}
+
+button {
+  margin-right: 8px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+  margin-top: 20px;
+}

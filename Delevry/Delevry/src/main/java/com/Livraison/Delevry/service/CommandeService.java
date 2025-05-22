@@ -11,7 +11,7 @@ import java.util.Map;
 public interface CommandeService {
     ResponseEntity<Map<String, String>> AddCommande(Map<String, Object> requestMap);
     ResponseEntity<String>changerStatutCommande(Long id );
-    ResponseEntity<String>assignerLivreurEtChangerStatut(Long commandeId);
+
     ResponseEntity<String>annulerCommande(Long commandeId);
     ResponseEntity<String>modifierCommande(Long commandeId, CommandeModif request);
     ResponseEntity<List<CommandeDTO>> GetAllCommande();
