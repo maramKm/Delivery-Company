@@ -15,9 +15,11 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="menu-toggle" mat-icon-button (click)="onMenuClick()" *ngIf="isMobile">
-        <mat-icon>menu</mat-icon>
-      </button>
+      <!-- Bouton dans le header pour ouvrir la sidebar -->
+    <button class="menu-toggle" mat-icon-button *ngIf="isMobile" (click)="onToggleSidebar()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
       <button class="profile-button" [matMenuTriggerFor]="profile" mat-icon-button>
         <mat-icon>account_circle</mat-icon>
       </button>

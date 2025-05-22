@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'platManage', component: PlatManageComponent },
       { path:"homeManage" , component:HomeManageComponent}, 
-      { path:"viewwPlat/:restaurantId" , component:ViewPlatComponent},
+      { path:"viewwPlat/:restaurantId/:nom" , component:ViewPlatComponent},
       { path:"cart" , component:CardComponent},
       { path:"commande" , component:CommandeManageComponent},
       { path:"restaurantManage" , component:RestaurantEntrepComponent},

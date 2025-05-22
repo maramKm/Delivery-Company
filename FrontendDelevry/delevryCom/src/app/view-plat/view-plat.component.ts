@@ -12,6 +12,7 @@ import { CartService } from '../Services/cart.service';
 })
 export class ViewPlatComponent implements OnInit {
   idRestaurant: string = '';
+  nomRestau: string = '';
   plats: any[] = [];
 
   constructor(
@@ -23,6 +24,7 @@ export class ViewPlatComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.nomRestau = decodeURIComponent(this.route.snapshot.paramMap.get('nom') || 'Unknown');
     this.idRestaurant = this.route.snapshot.paramMap.get('restaurantId') || '';
     if (this.idRestaurant) {
       this.loadPlats();

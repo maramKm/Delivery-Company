@@ -44,6 +44,10 @@ import { CommandeComponent } from './dialog/commande/commande.component';
 import { CommandeManageComponent } from './commande-manage/commande-manage.component';
 import { RestaurantEntrepComponent } from './restaurant-entrep/restaurant-entrep.component';
 import { AssignDelevryComponent } from './assign-delevry/assign-delevry.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 const ngxUiLoaderConfig : NgxUiLoaderConfig={
   text:"Loading...",
@@ -102,7 +106,10 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     MatTooltipModule,
     FormsModule,
     MatChipsModule,
-  MatSlideToggleModule
+    MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MenuItems],

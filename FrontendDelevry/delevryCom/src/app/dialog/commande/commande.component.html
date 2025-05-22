@@ -1,47 +1,54 @@
-<div class="container">
-  <h2 mat-dialog-title *ngIf="action === 'View'">Order Details</h2>
-  
-  <div mat-dialog-content *ngIf="action === 'View' && details">
-    <div class="row">
-      <div class="col-md-6">
-        <h3>Order Information</h3>
-        <p><strong>Order ID:</strong> {{ details.id }}</p>
-        <p><strong>Date:</strong> {{ details.dateCommande | date:'medium' }}</p>
-        <p><strong>Status:</strong> {{ getStatusLabel(details.statut) }}</p>
-        <p><strong>Total:</strong> {{ details.montant | currency }}</p>
-        <p><strong>Delivery Address:</strong> {{ details.adresseLivraison }}</p>
-      </div>
-      
-      <div class="col-md-6">
-        <h3>Customer Information</h3>
-        <p><strong>Customer:</strong> {{ details.clientNom }}</p>
-        <p><strong>Restaurant:</strong> {{ details.restaurantNom }}</p>
-        <p><strong>Delivery Person:</strong> {{ details.livreurNom }}</p>
-      </div>
-    </div>
+<div *ngIf="action === 'View'">
+  <div class="dialog-header">
+    <h2>Order Details</h2>
+  </div>
 
-    <div class="row mt-3">
-      <div class="col-12">
-        <h3>Order Items</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of details.plats">
-              <td>{{ item.platNom }}</td>
-              <td>{{ item.quantite }}</td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="container">
+    <div *ngIf="details" class="tableau">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Order Information</h3>
+          <p><strong>Order ID:</strong> {{ details.id }}</p>
+          <p><strong>Date:</strong> {{ details.dateCommande | date:'medium' }}</p>
+          <p><strong>Status:</strong> {{ getStatusLabel(details.statut) }}</p>
+          <p><strong>Total:</strong> {{ details.montant | currency }}</p>
+          <p><strong>Delivery Address:</strong> {{ details.adresseLivraison }}</p>
+        </div>
+
+        <div class="col-md-6">
+          <h3>Customer Information</h3>
+          <p><strong>Customer:</strong> {{ details.clientNom }}</p>
+          <p><strong>Restaurant:</strong> {{ details.restaurantNom }}</p>
+          <p><strong>Delivery Person:</strong> {{ details.livreurNom }}</p>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <h3>Order Items</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of details.plats">
+                <td>{{ item.platNom }}</td>
+                <td>{{ item.quantite }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="onClose()" color="primary">Close</button>
-  </div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-raised-button (click)="onClose()" color="primary" class="submit-button">
+    Close
+  </button>
+</div>
+
 </div>

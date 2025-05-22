@@ -11,14 +11,18 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrl: './nav.component.css',
   encapsulation: ViewEncapsulation.None
 })
-export class NavComponent implements OnInit{
-  role:any;
-  constructor(private router:Router,
-    private dialog:MatDialog,
-    private breakpointObserver: BreakpointObserver
-  ){}
+export class NavComponent implements OnInit {
+  role: any;
+  isMobile = false;
+  isSidebarOpen = false; // <-- ajouté pour gérer l’état du menu
+
   @Output() menuToggle = new EventEmitter<void>();
-  isMobile= false;
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -33,18 +37,25 @@ export class NavComponent implements OnInit{
     this.menuToggle.emit();
   }
 
-  logout(){
-    const dialogConfig=new MatDialogConfig();
-    dialogConfig.data={
-      message : 'Logout',
-      confirmation :true
+  onToggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    this.menuToggle.emit(); // <-- émet un événement vers le parent
+    if (this.isMobile) {
+      document.body.style.overflow = this.isSidebarOpen ? 'hidden' : '';
     }
-    const dialogRef=this.dialog.open(ConfirmationComponent,dialogConfig);
-    const sub= dialogRef.componentInstance.onEmitStatusChange.subscribe((response)=>{
+  }
+
+  logout() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'Logout',
+      confirmation: true
+    };
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
       dialogRef.close();
       localStorage.clear();
       this.router.navigate(['']);
-    })
+    });
   }
-
 }

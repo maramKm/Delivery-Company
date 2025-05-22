@@ -39,9 +39,9 @@ export class HomeManageComponent implements OnInit{
         })
   }
   
-handleViewMenu(restaurantId: string) {
-  console.log('Attempting to navigate with ID:', restaurantId); 
-  this.router.navigate(['/delevry/viewwPlat', restaurantId]);
+handleViewMenu(restaurantId: string, nom: string) {
+  console.log('Attempting to navigate with ID:', restaurantId,nom); 
+  this.router.navigate(['/delevry/viewwPlat', restaurantId,encodeURIComponent(nom)]);
 }
 
 }

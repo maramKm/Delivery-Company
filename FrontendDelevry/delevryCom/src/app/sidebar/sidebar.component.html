@@ -1,8 +1,12 @@
-<aside class="sidebar-section" [class.open]="isOpen">
+<!-- Sidebar - show on desktop or when explicitly opened on mobile -->
+<aside class="sidebar" *ngIf="!isMobile || isOpen">
   <mat-nav-list appAccordion>
     <ng-container *ngFor="let menuitem of menuItems">
-      <mat-list-item>
-        <a appAccordionToggle [routerLink]="['/delevry/', menuitem.state]">
+      <mat-list-item *ngIf="menuitem.type === 'link' && menuitem.role.includes(userRole)"
+                     routerLinkActive="selected"
+                     [routerLink]="['/delevry', menuitem.state]"
+                     (click)="closeSidebar()">
+        <a appAccordionToggle>
           <mat-icon>{{ menuitem.icon }}</mat-icon>
           <span>{{ menuitem.name }}</span>
         </a>

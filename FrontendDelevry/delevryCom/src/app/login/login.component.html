@@ -1,9 +1,10 @@
 <div class="dialog-header">
   <h2 mat-dialog-title>Sign In</h2>
-  <button mat-icon-button class="close-button" mat-dialog-close>
+  <button mat-icon-button class="close-button" mat-dialog-close aria-label="Close dialog">
     <mat-icon>close</mat-icon>
   </button>
 </div>
+
 
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="signinForm" class="signin-form" (ngSubmit)="handleSubmit()">

@@ -2,29 +2,31 @@
 mat-card {
   margin: 16px;
   padding: 24px;
-  background: white;
-  border-radius: 12px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background: #fff;
+  border-radius: 16px !important; /* arrondi plus doux et moderne */
+  box-shadow: 0 8px 24px rgba(229, 57, 53, 0.12) !important; /* ombre plus légère */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+  border: 1px solid rgba(229, 57, 53, 0.1);
+  cursor: default;
 }
 
 mat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(229, 57, 53, 0.18) !important;
 }
 
 /* ===== FLOATING HEADER ===== */
 mat-card > b > span {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: #E53935;
   display: flex;
   align-items: center;
-  gap: 12px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  gap: 14px;
+  text-shadow: 0 2px 6px rgba(229, 57, 53, 0.15);
   position: relative;
-  padding-left: 16px;
+  padding-left: 20px;
+  letter-spacing: 0.05em;
 }
 
 mat-card > b > span::before {
@@ -33,101 +35,126 @@ mat-card > b > span::before {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  height: 70%;
-  width: 5px;
-  background: linear-gradient(to bottom, #E53935, #C62828);
-  border-radius: 10px;
+  height: 80%;
+  width: 6px;
+  background: linear-gradient(180deg, #E53935 0%, #C62828 100%);
+  border-radius: 12px;
 }
 
 /* ===== 3D BUTTON ===== */
 button[mat-flat-button] {
   margin-left: 16px;
-  background: linear-gradient(145deg, #E53935, #C62828);
+  background: linear-gradient(135deg, #E53935, #C62828);
   color: white;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.4);
-  transition: all 0.3s ease;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 16px rgba(229, 57, 53, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   border: none;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  user-select: none;
 }
 
 button[mat-flat-button]::after {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -80%;
+  width: 60%;
   height: 100%;
-  background: linear-gradient(rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  animation: shine 3.5s infinite ease-in-out;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.4));
 }
 
 button[mat-flat-button]:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 16px rgba(229, 57, 53, 0.5);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(229, 57, 53, 0.5);
+  background: linear-gradient(135deg, #C62828, #B71C1C);
 }
 
 button[mat-flat-button] mat-icon {
-  margin-right: 10px;
-  font-size: 22px;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+  margin-right: 12px;
+  font-size: 24px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  transition: transform 0.3s ease;
+}
+
+button[mat-flat-button]:hover mat-icon {
+  transform: rotate(20deg) scale(1.15);
 }
 
 /* ===== GLOWING DIVIDER ===== */
 hr {
-  border: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(229, 57, 53, 0.3), transparent);
-  margin: 20px 0;
-  box-shadow: 0 1px 2px rgba(229, 57, 53, 0.1);
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(229, 57, 53, 0.35), transparent);
+  margin: 28px 0;
+  box-shadow: 0 1px 4px rgba(229, 57, 53, 0.15);
+  border-radius: 2px;
 }
 
 /* ===== FLOATING TABLE ===== */
 .responsive_table {
   overflow-x: auto;
-  margin: 24px 16px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin: 28px 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(229, 57, 53, 0.12);
   transform: translateZ(0);
 }
 
 /* ===== TABLE HEADER GLOW ===== */
 table.mat-table .mat-header-row {
-  background: linear-gradient(145deg, #E53935, #D32F2F);
-  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.4);
+  background: linear-gradient(135deg, #E53935, #D32F2F);
+  box-shadow: 0 4px 14px rgba(229, 57, 53, 0.45);
 }
 
 table.mat-table .mat-header-cell {
   color: white;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  padding: 16px 24px;
 }
 
 /* ===== HOVER EFFECTS ===== */
 table.mat-table .mat-row {
-  transition: all 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 table.mat-table .mat-row:hover {
-  transform: translateX(4px);
-  box-shadow: -4px 0 0 #E53935;
+  transform: translateX(6px);
+  box-shadow: -6px 0 0 #E53935;
+  background-color: #fff0f0;
 }
 
 /* ===== ACTION BUTTONS ===== */
 .action-link button {
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background-color: white;
+  color: #E53935;
 }
 
 .action-link button:hover {
-  transform: scale(1.2) translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+  transform: scale(1.3) translateY(-3px);
+  box-shadow: 0 6px 16px rgba(229, 57, 53, 0.3) !important;
 }
 
 /* ===== MOBILE ===== */
@@ -135,7 +162,7 @@ table.mat-table .mat-row:hover {
   mat-card {
     padding: 20px;
     margin: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 6px 18px rgba(229, 57, 53, 0.1) !important;
   }
   
   mat-card > b > span {
@@ -143,8 +170,20 @@ table.mat-table .mat-row:hover {
   }
   
   button[mat-flat-button] {
-    padding: 8px 16px;
+    padding: 10px 20px;
     margin-left: 0;
     width: 100%;
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+  }
+  
+  table.mat-table .mat-header-cell {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+  
+  table.mat-table .mat-row:hover {
+    transform: none;
+    box-shadow: none;
+    background-color: #fff0f0;
   }
 }

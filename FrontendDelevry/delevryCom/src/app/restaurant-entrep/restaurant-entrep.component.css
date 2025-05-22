@@ -1,0 +1,286 @@
+/* Main container */
+.management-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header card - restauré à l'ancien style */
+.header-card {
+  background: linear-gradient(90deg, #E53935 0%, #ff7961 100%);
+  color: white;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 16px rgba(229, 57, 53, 0.15);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+.header-card h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Search card */
+.search-card {
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff5f5;
+}
+
+.search-field {
+  width: 100%;
+}
+
+/* Table styles */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 
+              0 2px 2px 0 rgba(0,0,0,0.14), 
+              0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+.restaurant-table {
+  width: 100%;
+}
+
+.mat-header-row {
+  background-color: #f5f5f5;
+}
+
+.mat-header-cell {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 14px;
+}
+
+.mat-cell, .mat-header-cell {
+  padding: 0 16px;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.mat-row:hover {
+  background-color: #f5f5f5;
+}
+
+/* Status toggle */
+.status-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.status-toggle mat-slide-toggle {
+  margin: 0 8px;
+}
+
+/* Spinner */
+mat-spinner {
+  margin-left: 8px;
+  display: inline-block;
+}
+
+/* Empty state */
+.mat-row td.mat-cell {
+  text-align: center;
+  padding: 24px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .management-container {
+    padding: 16px;
+  }
+  
+  .header-card h1 {
+    font-size: 1.6rem;
+    padding: 1rem;
+  }
+
+  .mat-cell, .mat-header-cell {
+    padding: 0 8px;
+    font-size: 13px;
+  }
+}
+/* ======= TABLE STYLES ======= */
+:root {
+  --primary-color: #1976d2;
+  --primary-gradient: linear-gradient(90deg, #1976d2 0%, #64b5f6 100%);
+  --inactive-thumb-color: #c05c15;
+  --active-thumb-color: #42a5f5;
+  --header-bg: #e3f2fd;
+  --header-border: #90caf9;
+  --row-hover-bg: #e3f2fd;
+  --row-even-bg: #f6fafd;
+  --text-color: #333;
+  --text-header-color: var(--primary-color);
+  --text-muted: #90a4ae;
+  --transition-speed: 0.3s;
+  --font-base: 15px;
+  --font-small: 13px;
+  --padding-cell: 14px 18px;
+  --padding-cell-small: 8px 6px;
+}
+
+/* Container & Table */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+  /* Sticky header support */
+  position: relative;
+  max-height: 600px; /* Adjust as needed */
+}
+
+.restaurant-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--font-base);
+  transition: font-size var(--transition-speed) ease;
+}
+
+/* Sticky header */
+.mat-header-row {
+  background: var(--header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background var(--transition-speed) ease;
+}
+
+/* Header cells */
+.mat-header-cell {
+  font-weight: 700;
+  color: var(--text-header-color);
+  font-size: var(--font-base);
+  padding: var(--padding-cell);
+  border-bottom: 2px solid var(--header-border);
+  letter-spacing: 0.5px;
+  user-select: none;
+  transition: background var(--transition-speed), color var(--transition-speed);
+}
+
+/* Header cell focus for accessibility */
+.mat-header-cell:focus {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+  background-color: #bbdefb;
+}
+
+/* Data cells */
+.mat-cell {
+  padding: var(--padding-cell);
+  color: var(--text-color);
+  border-bottom: 1px solid #e3e3e3;
+  background: #fff;
+  transition: background var(--transition-speed);
+  cursor: default;
+  user-select: text;
+}
+
+/* Zebra striping for rows */
+.mat-row:nth-child(even) .mat-cell {
+  background: var(--row-even-bg);
+}
+
+/* Row hover effect with smooth transition */
+.mat-row:hover .mat-cell {
+  background: var(--row-hover-bg);
+  transition: background var(--transition-speed);
+}
+
+/* Focus visible for keyboard navigation on rows */
+.mat-row:focus-within .mat-cell {
+  outline: 2px solid var(--primary-color);
+  outline-offset: -2px;
+}
+
+/* Empty state styling */
+.mat-row td.mat-cell {
+  text-align: center;
+  padding: 28px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+/* ======= SLIDE-TOGGLE (BUTTON) COLOR & DYNAMICS ======= */
+.status-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  position: relative;
+}
+
+/* Slide-toggle bar */
+.status-toggle mat-slide-toggle.mat-primary .mat-slide-toggle-bar {
+  background: var(--primary-gradient) !important;
+  opacity: 0.6;
+  transition: opacity var(--transition-speed);
+}
+
+/* Slide-toggle bar when checked */
+.status-toggle mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
+  opacity: 1;
+}
+
+/* Slide-toggle thumb colors */
+.status-toggle mat-slide-toggle.mat-primary .mat-slide-toggle-thumb {
+  background: var(--inactive-thumb-color) !important;
+  transition: background var(--transition-speed);
+}
+
+.status-toggle mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
+  background: var(--active-thumb-color) !important;
+}
+
+/* Slide-toggle label text */
+.status-toggle mat-slide-toggle .mat-slide-toggle-label {
+  font-weight: 600;
+  color: var(--text-color);
+  user-select: none;
+  transition: color var(--transition-speed);
+}
+
+/* Loading spinner next to toggle */
+.status-toggle mat-spinner {
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  transition: opacity var(--transition-speed);
+}
+
+/* Disable pointer events and reduce opacity when loading */
+.status-toggle mat-slide-toggle[disabled] {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* ======= RESPONSIVE TABLE ======= */
+@media (max-width: 768px) {
+  :root {
+    --font-base: var(--font-small);
+    --padding-cell: var(--padding-cell-small);
+  }
+  .mat-header-cell, .mat-cell {
+    padding: var(--padding-cell);
+    font-size: var(--font-base);
+  }
+}
+

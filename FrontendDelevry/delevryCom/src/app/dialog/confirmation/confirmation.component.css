@@ -1,0 +1,136 @@
+/* Container toolbar */
+mat-toolbar {
+  background: linear-gradient(90deg, #E53935 0%, #ff7961 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4);
+  border-radius: 8px 8px 0 0;
+}
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(248, 248, 248);
+  user-select: none;
+  letter-spacing: 0.05em;
+}
+/* Toolbar row */
+mat-toolbar-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 12px;
+}
+
+/* Close button */
+button.mat-dialog-close {
+  color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-radius: 50%;
+}
+
+button.mat-dialog-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* Dialog content */
+mat-dialog-content {
+  padding: 24px 32px;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 500;
+  text-align: center;
+  user-select: none;
+}
+
+/* Highlight message text */
+mat-dialog-content h6 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #E53935;
+}
+
+/* Dialog actions container */
+mat-dialog-actions {
+  padding: 16px 32px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Buttons styling */
+mat-dialog-actions button {
+  min-width: 100px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  user-select: none;
+}
+
+/* Primary (Yes) button */
+mat-dialog-actions button[color="primary"] {
+  background: linear-gradient(135deg, #E53935, #C62828);
+  color: white;
+  border: none;
+}
+
+mat-dialog-actions button[color="primary"]:hover,
+mat-dialog-actions button[color="primary"]:focus {
+  background: linear-gradient(135deg, #C62828, #B71C1C);
+  box-shadow: 0 8px 24px rgba(183, 28, 28, 0.6);
+  outline: none;
+  transform: translateY(-3px);
+}
+
+/* Warn (No) button */
+mat-dialog-actions button[color="warn"] {
+  background: #f44336;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+mat-dialog-actions button[color="warn"]:hover,
+mat-dialog-actions button[color="warn"]:focus {
+  background: #d32f2f;
+  box-shadow: 0 8px 24px rgba(211, 47, 47, 0.6);
+  outline: none;
+  transform: translateY(-3px);
+}
+
+/* Icons inside buttons */
+mat-dialog-actions button mat-icon {
+  font-size: 20px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+
+mat-dialog-actions button:hover mat-icon,
+mat-dialog-actions button:focus mat-icon {
+  transform: rotate(20deg) scale(1.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  mat-dialog-content {
+    padding: 16px 20px;
+    font-size: 1rem;
+  }
+
+  mat-dialog-actions {
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 20px 24px;
+  }
+
+  mat-dialog-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

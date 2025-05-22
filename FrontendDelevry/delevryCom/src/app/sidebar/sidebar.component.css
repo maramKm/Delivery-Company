@@ -1,32 +1,138 @@
-.sidebar-section {
-  width: 100%;
-  background: white;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  padding: 10px 0;
-  z-index: 100;
+/* Updated Sidebar CSS with z-index */
+/* Style the entire navigation list */
+mat-nav-list {
+  padding: 0;
+  width: 300px;
 }
 
-.sidebar-overlay {
+/* Style each list item */
+mat-list-item {
+  padding: 0;
+  margin: 4px 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Style the anchor tags inside list items */
+mat-list-item a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for list items */
+mat-list-item a:hover {
+  background-color: rgba(0, 0, 0, 0.04); /* Light gray background on hover */
+}
+
+/* Active (selected) state for list items */
+mat-list-item.selected a {
+  background-color: #ed6335; /* Your primary color */
+  color: white; /* Text color for selected item */
+}
+
+/* Style the icons */
+mat-list-item mat-icon {
+  margin-right: 16px; /* Space between icon and text */
+  font-size: 20px; /* Icon size */
+  width: 24px; /* Ensure consistent width */
+  height: 24px; /* Ensure consistent height */
+}
+
+/* Style the text */
+mat-list-item span {
+  font-size: 14px; /* Text size */
+  font-weight: 500; /* Medium font weight */
+}
+
+/* Accordion-specific styles (if needed) */
+mat-list-item[appAccordionToggle] {
+  cursor: pointer;
+}
+
+/* Add a subtle border between items (optional) */
+mat-list-item:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Add container styles for the sidebar with z-index */
+.sidebar-container {
+  width: var(--sidebar-width); /* Now using the new width */
+  /* Keep all other properties the same */
   position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  padding-top: 70px; /* Space for navbar */
+}
+
+/* Sidebar open/closed states */
+.sidebar-container.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar-container.open {
+  transform: translateX(0);
+}
+
+@media (max-width: 767px) {
+  .sidebar-container {
+    width: var(--sidebar-width); /* Maintain width when open on mobile */
+    transform: translateX(-100%);
+  }
+  
+  .sidebar-container.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Overlay for mobile when sidebar is open */
+.sidebar-overlay {
+  position: static;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Just below sidebar */
   display: none;
 }
 
-.sidebar-overlay.open {
+.sidebar-overlay.visible {
   display: block;
 }
-
-mat-nav-list a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  text-decoration: none;
+:root {
+  --sidebar-width: 300px; /* Increased from 260px (or your previous value) */
 }
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-left: var(--sidebar-width); /* Now matches new sidebar width */
+  transition: margin-left 0.3s ease;
+}
+.sidebar-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 200;
+  background: #fff;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+

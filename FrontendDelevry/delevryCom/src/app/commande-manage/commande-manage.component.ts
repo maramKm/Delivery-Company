@@ -15,7 +15,6 @@ import { ConfirmationComponent } from '../dialog/confirmation/confirmation.compo
   standalone: false,
   templateUrl: './commande-manage.component.html',
   styleUrl: './commande-manage.component.css',
-  
 })
 export class CommandeManageComponent implements OnInit {
   displayedColumns: string[] | undefined;
@@ -41,7 +40,7 @@ export class CommandeManageComponent implements OnInit {
 
   tableData() {
     if (this.currentUser && this.currentUser.role === 'CLIENT' && this.currentUser.id) {
-      this.displayedColumns= ['id', 'date', 'statut', 'total', 'actions'];
+      this.displayedColumns= ['date', 'statut', 'total', 'actions'];
       this.commandeService.getCommandesByClient(this.currentUser.id).subscribe(
         (response: any) => {
           this.ngx.stop();
@@ -188,6 +187,8 @@ getStatusClass(status: string): string {
       return 'status-completed';
     case 'ANNULÉE':
       return 'status-cancelled';
+    case 'PREPARE':
+      return 'status-ready';
     default:
       return '';
   }

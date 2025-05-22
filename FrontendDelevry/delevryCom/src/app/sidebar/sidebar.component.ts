@@ -1,49 +1,73 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItems } from '../shared/menuItems';
+import { ChangeDetectorRef, Component, OnDestroy ,OnInit,Input} from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MenuItems } from '../shared/menuItems'; // ou '../share/menu-items' selon ton arborescence
 import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: false,
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  userRole: any;
-  isOpen = false;
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+  resizeListener!: () => void;
+
+  @Input() isOpen = false;
   isMobile = false;
   menuItems: any[] = [];
-  resizeListener!: () => void; // <- FIXED HERE
+  userRole: string | null;
 
-  constructor(public menuItem: MenuItems, private auth: AuthService) {
-    const userRole = auth.getUserData()?.role;
-    this.menuItems = this.menuItem.getMenuItems().filter(item =>
-      item.role.includes(userRole)
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher,
+    private auth: AuthService,
+    private menuItemService: MenuItems
+  ) {
+    this.mobileQuery = media.matchMedia('(max-width: 767px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+
+    this.userRole = this.auth.getUserData()?.role ?? localStorage.getItem('role');
+
+    this.menuItems = this.menuItemService.getMenuItems().filter(item =>
+      this.userRole ? item.role.includes(this.userRole) : false
     );
   }
-  
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkScreenSize();
     this.resizeListener = () => this.checkScreenSize();
     window.addEventListener('resize', this.resizeListener);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
     window.removeEventListener('resize', this.resizeListener);
   }
 
-  checkScreenSize() {
-    this.isMobile = window.innerWidth < 768;
-  }
-
-  onToggleSidebar() {
+  onToggleSidebar(): void {
     this.isOpen = !this.isOpen;
-    document.body.style.overflow = this.isOpen ? 'hidden' : '';
+
+    // Désactiver le scroll en mobile uniquement
+    if (this.mobileQuery.matches) {
+      document.body.style.overflow = this.isOpen ? 'hidden' : '';
+    }
   }
 
-  closeSidebar() {
+  closeSidebar(): void {
     this.isOpen = false;
     document.body.style.overflow = '';
+  }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth < 768;
+
+    // Fermer la sidebar automatiquement si on est sur mobile
+    if (this.isMobile) {
+      this.isOpen = false;
+      document.body.style.overflow = '';
+    }
   }
 }
