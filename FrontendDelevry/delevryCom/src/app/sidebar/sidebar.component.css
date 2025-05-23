@@ -3,6 +3,7 @@ mat-list-item {
   padding: 0;
   margin: 4px 0;
   transition: background-color 0.3s ease;
+  width: 250px;
 }
 
 /* Style the anchor tags inside list items */

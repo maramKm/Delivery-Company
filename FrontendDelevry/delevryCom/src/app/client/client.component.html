@@ -1,14 +1,13 @@
 <div class="container mt-4">
-    <h1 class="mb-4">Mes Livraisons</h1>
+ <div class="header-search-wrapper">
+  <h1 class="mb-3">Mes Livraisons</h1>
+  <mat-form-field appearance="outline" class="w-100 search-field">
+    <mat-label>Rechercher</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer les livraisons">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
 
-    <!-- Filter and search -->
-    <div class="mb-3">
-        <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Rechercher</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Filtrer les livraisons">
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-    </div>
 
     <!-- Livraisons à confirmer -->
     <div class="card mb-4">
@@ -35,9 +34,6 @@
                         <th mat-header-cell *matHeaderCellDef>Adresse</th>
                         <td mat-cell *matCellDef="let element">{{element.adresse}}</td>
                     </ng-container>
-
-                    <!-- Livreur Column -->
-                   
 
                     <!-- Actions Column -->
                     <ng-container matColumnDef="actions">
@@ -134,9 +130,6 @@
                         <th mat-header-cell *matHeaderCellDef>Adresse</th>
                         <td mat-cell *matCellDef="let element">{{element.adresse}}</td>
                     </ng-container>
-
-                    <!-- Livreur Column -->
-             
 
                     <tr mat-header-row *matHeaderRowDef="termineesColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: termineesColumns;"></tr>
