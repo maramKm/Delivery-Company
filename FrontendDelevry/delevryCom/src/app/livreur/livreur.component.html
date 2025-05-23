@@ -1,13 +1,13 @@
 <div class="container mt-4">
-    <h1 class="mb-4">Delivery Management</h1>
-    
-    <div class="mb-3">
-      <mat-form-field appearance="outline" class="w-100">
+    <div class="mb-4">
+      <h1 class="mb-3">Delivery Management</h1>
+      <mat-form-field appearance="outline" class="search-field">
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Filter deliveries">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
+
 
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100">
@@ -70,4 +70,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
-  </div>
+</div>

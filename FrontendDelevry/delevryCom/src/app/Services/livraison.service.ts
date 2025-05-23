@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse ,HttpHeaders} from '@angular/common/http';
+import { Observable, catchError, throwError, map } from 'rxjs';
 import { Livraison } from '../shared/Livraison';
 import { Livreur } from '../shared/Livreur';
 
@@ -16,14 +16,25 @@ export class LivraisonService {
 
   // Improved with proper typing and error handling
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Something went wrong';
+    let errorMessage = 'Failed to assign delivery person';
     if (error.error instanceof ErrorEvent) {
       // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Client error: ${error.error.message}`;
     } else {
       // Server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
+      switch (error.status) {
+        case 400:
+          errorMessage = error.error?.message || 'Invalid request data';
+          break;
+        case 404:
+          errorMessage = 'Endpoint not found';
+          break;
+        case 500:
+          errorMessage = error.error?.message || 'Server error occurred';
+          break;
+        default:
+          errorMessage = `Server returned ${error.status}: ${error.message}`;
+      }    }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
@@ -53,47 +64,113 @@ export class LivraisonService {
   }
 
   // Assign delivery person to a delivery
-  affecterLivreur(livraisonId: number, livreurId: number): Observable<Livraison> {
-    const data = {
-      commandeId: livraisonId,
-      livreurId: livreurId
-    };
+affecterLivreur(livraisonId: number, livreurId: number): Observable<any> {
+  const payload = {
+    commandeId: livraisonId, // OK si ton backend attend "commandeId"
+    livreurId: livreurId
+  };
 
-    return this.http.post<Livraison>(`${this.apiUrl}/livraison/affecter`, data)
-      .pipe(
-        catchError(this.handleError)
-      );
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.getToken()}`
+  });
+
+  return this.http.post(
+    `${this.apiUrl}/livraison/affecter`,
+    payload,
+    {
+      headers,
+      responseType: 'text' // 👈 Indique qu'on attend du texte, pas du JSON
+    }
+  ).pipe(
+    catchError(this.handleError)
+  );
+}
+
+private getToken(): string {
+    // Implement your actual token retrieval
+    return localStorage.getItem('auth_token') || '';
   }
-
   // Mark delivery as completed
-  marquerCommeLivree(livraisonId: number): Observable<Livraison> {
-    return this.http.post<Livraison>(
-      `${this.apiUrl}/livraison/marquer-livree/${livraisonId}`, 
-      {}
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
+marquerCommeLivree(livraisonId: number): Observable<{ success: boolean, message: string }> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.getToken()}`
+  });
+
+  return this.http.post(
+    `${this.apiUrl}/livraison/marquer-livree/${livraisonId}`,
+    {},
+    { 
+      headers,
+      responseType: 'text'  // ← Handle plain text response
+    }
+  ).pipe(
+    map((response: string) => {
+  const success = response.includes('succès'); // ou 'success' selon ton message
+  return {
+    success,
+    message: response
+  };
+})
+,
+    catchError(this.handleError)
+  );
+}
 
   // Confirm delivery
-  confirmerLivraison(livraisonId: number): Observable<Livraison> {
-    return this.http.post<Livraison>(
-      `${this.apiUrl}/livraison/confirmer/${livraisonId}`, 
-      {}
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
+  confirmerLivraison(livraisonId: number): Observable<{ success: boolean, message: string }> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.getToken()}`
+  });
+
+  return this.http.post(
+    `${this.apiUrl}/livraison/confirmer/${livraisonId}`,
+    {},
+    { 
+      headers,
+      responseType: 'text'  // Add if backend returns raw boolean
+    }
+  ).pipe(
+    map((response: string) => {
+    const success = response.includes('succès'); // ou 'success' si message anglais
+    return {
+      success,
+      message: response
+    };
+    }),
+    catchError(this.handleError)
+  );
+}
   
   // Accept delivery
-  accepterLivraison(data: any): Observable<Livraison> {
-    return this.http.post<Livraison>(
-      `${this.apiUrl}/livraison/accepter`, 
-      data
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
+// In LivraisonService
+accepterLivraison(data: any): Observable<{ success: boolean, message: string }> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${this.getToken()}`
+  });
+
+  return this.http.post(
+    `${this.apiUrl}/livraison/accepter`,
+    data,
+    { 
+      headers,
+      responseType: 'text'  // ← Key change: expect text, not JSON
+    }
+  ).pipe(
+    map((response: string) => {
+      // Convert string 'true'/'false' to boolean
+      const success = response.toLowerCase() === 'true';
+      return {
+        success,
+        message: success ? 'Delivery accepted' : 'Failed to accept delivery'
+      };
+    }),
+    catchError(this.handleError)
+  );
+}
 
   // Get deliveries for a specific client
   getLivraisonsClient(clientId: number): Observable<Livraison[]> {

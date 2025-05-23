@@ -75,49 +75,52 @@ export class LivreurComponent implements OnInit {
     };
     console.log('Sending payload:', data);
     this.livraisonService.accepterLivraison(data).subscribe(
-      (response: any) => {
-        this.ngx.stop();
-        this.responseMessage = response?.message || 'Delivery accepted successfully';
-        this.snackBar.openSnackBar(this.responseMessage, 'success');
-        this.loadDeliveries();
-      },
-      (error) => {
-        this.ngx.stop();
-        this.handleError(error);
-      }
-    );
+    (response: any) => {
+      this.ngx.stop();
+      this.snackBar.openSnackBar('Delivery accepted successfully', 'success');
+      this.loadDeliveries();
+    },
+    (error) => {
+      this.ngx.stop();
+      this.handleError(error);
+    }
+  );
+
   }
 
-  markAsDelivered(livraisonId: number) {
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '450px',
-      data: {
-        message: 'Mark this delivery as completed?',
-        confirmation: true
-      }
-    });
+markAsDelivered(livraisonId: number) {
+  const dialogRef = this.dialog.open(ConfirmationComponent, {
+    width: '450px',
+    data: {
+      message: 'Mark this delivery as completed?',
+      confirmation: true
+    }
+  });
 
-    dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
-      this.confirmDeliveryCompletion(livraisonId);
-      dialogRef.close();
-    });
-  }
+  dialogRef.componentInstance.onEmitStatusChange.subscribe(() => {
+    this.confirmDeliveryCompletion(livraisonId); // ← Handles the actual API call
+    dialogRef.close();
+  });
+}
 
-  confirmDeliveryCompletion(livraisonId: number) {
-    this.ngx.start();
-    this.livraisonService.marquerCommeLivree(livraisonId).subscribe(
-      (response: any) => {
-        this.ngx.stop();
-        this.responseMessage = response?.message || 'Delivery marked as completed';
-        this.snackBar.openSnackBar(this.responseMessage, 'success');
-        this.loadDeliveries();
-      },
-      (error) => {
-        this.ngx.stop();
-        this.handleError(error);
+confirmDeliveryCompletion(livraisonId: number) {
+  this.ngx.start(); // Show loader
+  this.livraisonService.marquerCommeLivree(livraisonId).subscribe({
+    next: (response) => {
+      this.ngx.stop();
+      if (response.success) {
+        this.snackBar.openSnackBar(response.message, 'success');
+        this.loadDeliveries(); // Refresh the delivery list
+      } else {
+        this.snackBar.openSnackBar(response.message, 'error');
       }
-    );
-  }
+    },
+    error: (error) => {
+      this.ngx.stop();
+      this.snackBar.openSnackBar(error.message || 'Failed to mark delivery', 'error');
+    }
+  });
+}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -1,10 +1,12 @@
 <div class="container mt-4">
-  <h1 class="mb-4">Delivery Assignment</h1>
-  
   <!-- Pending Deliveries Table -->
   <div class="card mb-4">
     <div class="card-header bg-primary text-white">
-      <h5>Pending Deliveries</h5>
+      <!-- Headings at the top of the interface -->
+      <div class="text-center mb-4">
+        <h1 class="mb-2">Delivery Assignment</h1>
+        <h5 class="text-primary">Pending Deliveries</h5>
+      </div>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -24,17 +26,13 @@
           <!-- Client Column -->
           <ng-container matColumnDef="client">
             <th mat-header-cell *matHeaderCellDef>Client</th>
-            <td mat-cell *matCellDef="let element">
-              {{element.clientNom}}
-            </td>
+            <td mat-cell *matCellDef="let element">{{element.clientNom}}</td>
           </ng-container>
 
           <!-- Restaurant Column -->
           <ng-container matColumnDef="restaurant">
             <th mat-header-cell *matHeaderCellDef>Restaurant</th>
-            <td mat-cell *matCellDef="let element">
-              {{element.restaurantNom}}
-            </td>
+            <td mat-cell *matCellDef="let element">{{element.restaurantNom}}</td>
           </ng-container>
 
           <!-- Actions Column -->
