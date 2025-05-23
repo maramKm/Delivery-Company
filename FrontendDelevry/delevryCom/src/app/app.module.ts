@@ -49,9 +49,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LivreurComponent } from './livreur/livreur.component';
 import { ClientComponent } from './client/client.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-
 const ngxUiLoaderConfig : NgxUiLoaderConfig={
   text:"Loading...",
   textColor: "#E53935",   
@@ -86,7 +83,10 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     RestaurantEntrepComponent,
     AssignDelevryComponent,
       LivreurComponent,
-    ClientComponent
+    ClientComponent,
+    ListDelevryComponent,
+    ListLivreurComponent,
+    ListLivraisonByRestauComponent
   ],
   imports: [
     BrowserModule,
@@ -115,8 +115,6 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     MatProgressSpinnerModule,
     MatSortModule,
     MatPaginatorModule,
-    MatPaginator,
-    MatSort
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MenuItems],

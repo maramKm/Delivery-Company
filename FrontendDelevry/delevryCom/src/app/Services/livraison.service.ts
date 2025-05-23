@@ -179,4 +179,22 @@ accepterLivraison(data: any): Observable<{ success: boolean, message: string }> 
         catchError(this.handleError)
       );
   }
+    getAllLivreur(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/livraison/livreurs`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+     getAllLivraison(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/livraison/AllLivraison`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+    getAllLivraisonsByRestaurant(restaurantId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/livraison/AllLivraisonByRestaurant/${restaurantId}`);
+  }
+
 }

@@ -1,0 +1,19 @@
+/* livreur-list.component.css */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: white;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+mat-spinner {
+  margin: 0 auto;
+}
+
+mat-icon {
+  vertical-align: middle;
+}
