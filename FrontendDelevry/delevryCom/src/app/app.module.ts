@@ -49,6 +49,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LivreurComponent } from './livreur/livreur.component';
 import { ClientComponent } from './client/client.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 const ngxUiLoaderConfig : NgxUiLoaderConfig={
   text:"Loading...",
@@ -112,7 +114,9 @@ const ngxUiLoaderConfig : NgxUiLoaderConfig={
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatPaginator,
+    MatSort
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [MenuItems],
