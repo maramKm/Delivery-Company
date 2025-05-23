@@ -36,4 +36,14 @@ public interface LivraisonRest {
     @GetMapping("/client/{clientId}")
     ResponseEntity<List<LivraisonDTO>> getLivraisonsClient(@PathVariable Long clientId);
 
+    @GetMapping("/livreurs")
+    ResponseEntity<List<LivreurDTO>> getAllLivreurs();
+
+    @GetMapping("/AllLivraison")
+    ResponseEntity<List<LivraisonDTO>> getAllLivraisons();
+
+    @GetMapping("/AllLivraisonByRestaurant/{RestauId}")
+    public ResponseEntity<List<LivraisonDTO>> getAllLivraisonsByRestaurant(@PathVariable("RestauId") Long restaurantId);
+
+
 }

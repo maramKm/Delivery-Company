@@ -26,4 +26,11 @@ public interface LivraiosnService {
 
     List<LivraisonDTO> getLivraisonsClient(Long clientId);
 
+    List<LivreurDTO> getAllLivreurs();
+
+    List<LivraisonDTO> getAllLivraisons();
+
+    List<LivraisonDTO> getAllLivraisonsByRestaurant(Long restaurantId);
+
+
 }

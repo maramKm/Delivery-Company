@@ -12,6 +12,9 @@ import { RestaurantEntrepComponent } from './restaurant-entrep/restaurant-entrep
 import { AssignDelevryComponent } from './assign-delevry/assign-delevry.component';
 import { LivreurComponent } from './livreur/livreur.component';
 import { ClientComponent } from './client/client.component';
+import { ListLivreurComponent } from './list-livreur/list-livreur.component';
+import { ListDelevryComponent } from './list-delevry/list-delevry.component';
+import { ListLivraisonByRestauComponent } from './list-livraison-by-restau/list-livraison-by-restau.component';
 
 const routes: Routes = [
   {
@@ -26,8 +29,11 @@ const routes: Routes = [
       { path:"commande" , component:CommandeManageComponent},
       { path:"restaurantManage" , component:RestaurantEntrepComponent},
       { path:"AssignDelvry" , component:AssignDelevryComponent},
-            { path:"livreur" , component:LivreurComponent},
+      { path:"livreur" , component:LivreurComponent},
       { path:"client" , component:ClientComponent},
+      { path:"GetLivreur" , component:ListLivreurComponent},
+      { path:"GetLivraison" , component:ListDelevryComponent},
+      { path:"GetLivraisonByRestau" , component:ListLivraisonByRestauComponent},
 
     ]
   },

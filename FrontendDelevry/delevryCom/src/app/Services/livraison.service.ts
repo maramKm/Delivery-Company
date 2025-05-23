@@ -59,7 +59,7 @@ export class LivraisonService {
       livreurId: livreurId
     };
 
-    return this.http.post<Livraison>(`${this.apiUrl}/livraison/affecter`, data)
+    return this.http.post<any>(`${this.apiUrl}/livraison/affecter`, data)
       .pipe(
         catchError(this.handleError)
       );
@@ -67,7 +67,7 @@ export class LivraisonService {
 
   // Mark delivery as completed
   marquerCommeLivree(livraisonId: number): Observable<Livraison> {
-    return this.http.post<Livraison>(
+    return this.http.post<any>(
       `${this.apiUrl}/livraison/marquer-livree/${livraisonId}`, 
       {}
     ).pipe(
@@ -77,7 +77,7 @@ export class LivraisonService {
 
   // Confirm delivery
   confirmerLivraison(livraisonId: number): Observable<Livraison> {
-    return this.http.post<Livraison>(
+    return this.http.post<any>(
       `${this.apiUrl}/livraison/confirmer/${livraisonId}`, 
       {}
     ).pipe(
@@ -87,7 +87,7 @@ export class LivraisonService {
   
   // Accept delivery
   accepterLivraison(data: any): Observable<Livraison> {
-    return this.http.post<Livraison>(
+    return this.http.post<any>(
       `${this.apiUrl}/livraison/accepter`, 
       data
     ).pipe(
@@ -102,4 +102,23 @@ export class LivraisonService {
         catchError(this.handleError)
       );
   }
+
+    getAllLivreur(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/livraison/livreurs`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+     getAllLivraison(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/livraison/AllLivraison`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+    getAllLivraisonsByRestaurant(restaurantId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/livraison/AllLivraisonByRestaurant/${restaurantId}`);
+  }
+
 }
