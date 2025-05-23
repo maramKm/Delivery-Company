@@ -3,9 +3,11 @@ package com.Livraison.Delevry.serviceImpl;
 import com.Livraison.Delevry.dao.CommandeDao;
 import com.Livraison.Delevry.dao.LivraisonDao;
 import com.Livraison.Delevry.dao.LivreurDao;
+import com.Livraison.Delevry.dao.RestaurantDao;
 import com.Livraison.Delevry.pojo.Commande;
 import com.Livraison.Delevry.pojo.Livraison;
 import com.Livraison.Delevry.pojo.Livreur;
+import com.Livraison.Delevry.pojo.Restaurant;
 import com.Livraison.Delevry.service.LivraiosnService;
 import com.Livraison.Delevry.wrapper.CommandeDTO;
 import com.Livraison.Delevry.wrapper.LivraisonDTO;
@@ -32,6 +34,9 @@ public class LivraisonServiceImpl implements LivraiosnService {
 
     @Autowired
     private CommandeDao commandeRepository;
+
+    @Autowired
+    private RestaurantDao restaurantRepository;
 
     /**
      * Récupère toutes les commandes préparées en attente de livraison
@@ -187,5 +192,34 @@ public class LivraisonServiceImpl implements LivraiosnService {
                 .map(LivraisonDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<LivreurDTO> getAllLivreurs() {
+        List<Livreur> livreurs = livreurRepository.findAll();
+        return livreurs.stream()
+                .map(LivreurDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LivraisonDTO> getAllLivraisons() {
+        List<Livraison> livraisons = livraisonRepository.findAll();
+        return livraisons.stream()
+                .map(LivraisonDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LivraisonDTO> getAllLivraisonsByRestaurant(Long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
+                .map(restaurant -> {
+                    List<Livraison> livraisons = livraisonRepository.findLivraisonsByCommande_Restaurant(restaurant);
+                    return livraisons.stream()
+                            .map(LivraisonDTO::new)
+                            .collect(Collectors.toList());
+                })
+                .orElseThrow(() -> null);
+    }
+
 
 }

@@ -12,13 +12,17 @@ public class LivraisonDTO {
     private String statut;
     private String adresse;
     private String commandeClient; // Client name from related commande
-    private String commandeRestaurant; // Restaurant name from related commande
+    private String commandeRestaurant;
+    private double montant;
+    private String nomLivreur;// Restaurant name from related commande
 
     public LivraisonDTO(Livraison livraison) {
         this.id = livraison.getId();
         this.dateLivraison = livraison.getDateLivraison();
         this.statut = livraison.getStatusCommande();
         this.adresse = livraison.getCommande().getAdresseLivraison();
+        this.montant = livraison.getCommande().getMontant();
+        this.nomLivreur=livraison.getLivreur().getNom() + " "+livraison.getLivreur().getPrenom();
 
         // Assuming Livraison has a Commande relationship
         if (livraison.getCommande() != null) {

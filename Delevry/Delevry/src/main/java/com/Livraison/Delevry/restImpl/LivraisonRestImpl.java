@@ -1,5 +1,6 @@
 package com.Livraison.Delevry.restImpl;
 
+import com.Livraison.Delevry.pojo.Restaurant;
 import com.Livraison.Delevry.rest.LivraisonRest;
 import com.Livraison.Delevry.service.LivraiosnService;
 import com.Livraison.Delevry.wrapper.CommandeDTO;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -97,5 +99,27 @@ public class LivraisonRestImpl implements LivraisonRest {
     public ResponseEntity<List<LivraisonDTO>> getLivraisonsClient(Long clientId) {
         List<LivraisonDTO> livraisons = livraiosnService.getLivraisonsClient(clientId);
         return new ResponseEntity<>(livraisons, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<LivreurDTO>> getAllLivreurs() {
+        List<LivreurDTO> list = livraiosnService.getAllLivreurs();
+        return ResponseEntity.ok(list);
+    }
+
+    @Override
+    public ResponseEntity<List<LivraisonDTO>> getAllLivraisons() {
+        List<LivraisonDTO> list = livraiosnService.getAllLivraisons();
+        return ResponseEntity.ok(list);
+    }
+
+    @Override
+    public ResponseEntity<List<LivraisonDTO>> getAllLivraisonsByRestaurant(Long restaurantId) {
+        try {
+            List<LivraisonDTO> livraisons = livraiosnService.getAllLivraisonsByRestaurant(restaurantId);
+            return ResponseEntity.ok(livraisons);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
+        }
     }
 }
