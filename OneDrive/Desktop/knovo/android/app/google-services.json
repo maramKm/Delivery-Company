@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "628793087937",
+    "project_id": "konvo-app-d8f93",
+    "storage_bucket": "konvo-app-d8f93.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628793087937:android:ec149432a9d6e897afc140",
+        "android_client_info": {
+          "package_name": "com.example.knovo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628793087937-qr8c51ssn6qo16m4uu2u7t1acc3k6v7g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA0YM4mqaLdiKLfc4MWsrmi8bfwNwRG2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628793087937-qr8c51ssn6qo16m4uu2u7t1acc3k6v7g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
